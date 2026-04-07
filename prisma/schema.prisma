@@ -1,0 +1,356 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+// ─── Enums existants ────────────────────────────────────────────────────────
+
+enum Role {
+  STUDENT
+  ADMIN
+}
+
+enum TicketCategory {
+  SCOLARITE
+  LOGEMENT
+  INFORMATIQUE
+  AUTRE
+}
+
+enum TicketStatus {
+  OPEN
+  IN_PROGRESS
+  RESOLVED
+  CLOSED
+}
+
+// ─── Baromètre ───────────────────────────────────────────────────────────────
+
+enum BarometreStatus {
+  OPEN
+  CLOSED
+}
+
+// ─── Budget Participatif ─────────────────────────────────────────────────────
+
+enum BudgetCategory {
+  INFRASTRUCTURE
+  CULTURE
+  SPORT
+  NUMERIQUE
+  AUTRE
+}
+
+enum ProjectStatus {
+  PROPOSED
+  ACTIVE
+  FUNDED
+  IN_PROGRESS
+  COMPLETED
+  REJECTED
+}
+
+enum VoteType {
+  FOR
+  AGAINST
+}
+
+// ─── Parlement Éphémère ───────────────────────────────────────────────────────
+
+enum ParlementSessionStatus {
+  CANDIDATURES
+  ACTIF
+  CLOS
+}
+
+enum MotionVoteType {
+  FOR
+  AGAINST
+  ABSTAIN
+}
+
+// ─── Gamification ────────────────────────────────────────────────────────────
+
+enum PointAction {
+  TICKET_SUBMITTED
+  TICKET_RESOLVED
+  BAROMETRE_RESPONDED
+  BUDGET_VOTED
+  PARLEMENT_APPLIED
+  PARLEMENT_ELECTED
+  MOTION_CREATED
+  MOTION_VOTED
+}
+
+enum BadgeSlug {
+  FIRST_TICKET
+  FIRST_VOTE
+  FIRST_BAROMETRE
+  ELECTED_MP
+  MOTION_CREATOR
+  ACTIVE_CITIZEN
+  ENGAGED_STUDENT
+}
+
+// ─── Modèles ─────────────────────────────────────────────────────────────────
+
+model User {
+  id           String   @id @default(cuid())
+  name         String
+  email        String   @unique
+  passwordHash String
+  role         Role     @default(STUDENT)
+  createdAt    DateTime @default(now())
+
+  // Tickets
+  tickets         Ticket[]       @relation("TicketAuthor")
+  assignedTickets Ticket[]       @relation("TicketAssignee")
+  historyEntries  TicketHistory[]
+
+  // Baromètre
+  barometreResponses BarometreResponse[]
+
+  // Budget
+  createdProjects BudgetProject[] @relation("ProjectCreator")
+  projectVotes    ProjectVote[]
+
+  // Parlement
+  parlementCandidatures ParlementCandidature[]
+  motionsAuthored       ParlementMotion[]      @relation("MotionAuthor")
+  motionVotes           MotionVote[]
+
+  // Gamification
+  pointTransactions PointTransaction[]
+  userBadges        UserBadge[]
+
+  // NextAuth
+  accounts Account[]
+  sessions Session[]
+}
+
+model Ticket {
+  id          String         @id @default(cuid())
+  title       String
+  description String
+  category    TicketCategory @default(AUTRE)
+  status      TicketStatus   @default(OPEN)
+  createdAt   DateTime       @default(now())
+  updatedAt   DateTime       @updatedAt
+
+  authorId String
+  author   User   @relation("TicketAuthor", fields: [authorId], references: [id])
+
+  assignedToId String?
+  assignedTo   User?   @relation("TicketAssignee", fields: [assignedToId], references: [id])
+
+  history TicketHistory[]
+}
+
+model TicketHistory {
+  id        String       @id @default(cuid())
+  status    TicketStatus
+  comment   String?
+  createdAt DateTime     @default(now())
+
+  ticketId String
+  ticket   Ticket @relation(fields: [ticketId], references: [id], onDelete: Cascade)
+
+  changedById String
+  changedBy   User   @relation(fields: [changedById], references: [id])
+}
+
+// ─── Baromètre ───────────────────────────────────────────────────────────────
+
+model BarometreSession {
+  id        String          @id @default(cuid())
+  weekLabel String
+  status    BarometreStatus @default(OPEN)
+  createdAt DateTime        @default(now())
+  closedAt  DateTime?
+
+  responses BarometreResponse[]
+}
+
+model BarometreResponse {
+  id        String   @id @default(cuid())
+  moodScore Int      // 1-5
+  wellbeing Int      // 1-5
+  comment   String?
+  createdAt DateTime @default(now())
+
+  sessionId String
+  session   BarometreSession @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+
+  userId String
+  user   User @relation(fields: [userId], references: [id])
+
+  @@unique([sessionId, userId])
+}
+
+// ─── Budget Participatif ─────────────────────────────────────────────────────
+
+model BudgetProject {
+  id          String         @id @default(cuid())
+  title       String
+  description String
+  amount      Float
+  category    BudgetCategory @default(AUTRE)
+  status      ProjectStatus  @default(PROPOSED)
+  createdAt   DateTime       @default(now())
+  updatedAt   DateTime       @updatedAt
+
+  createdById String
+  createdBy   User @relation("ProjectCreator", fields: [createdById], references: [id])
+
+  votes ProjectVote[]
+}
+
+model ProjectVote {
+  id        String   @id @default(cuid())
+  vote      VoteType
+  createdAt DateTime @default(now())
+
+  projectId String
+  project   BudgetProject @relation(fields: [projectId], references: [id], onDelete: Cascade)
+
+  userId String
+  user   User @relation(fields: [userId], references: [id])
+
+  @@unique([projectId, userId])
+}
+
+// ─── Parlement Éphémère ───────────────────────────────────────────────────────
+
+model ParlementSession {
+  id         String                 @id @default(cuid())
+  monthLabel String
+  maxSeats   Int                    @default(5)
+  status     ParlementSessionStatus @default(CANDIDATURES)
+  createdAt  DateTime               @default(now())
+  drawnAt    DateTime?
+
+  candidatures ParlementCandidature[]
+  motions      ParlementMotion[]
+}
+
+model ParlementCandidature {
+  id         String   @id @default(cuid())
+  motivation String
+  isSelected Boolean  @default(false)
+  createdAt  DateTime @default(now())
+
+  sessionId String
+  session   ParlementSession @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+
+  userId String
+  user   User @relation(fields: [userId], references: [id])
+
+  @@unique([sessionId, userId])
+}
+
+model ParlementMotion {
+  id          String   @id @default(cuid())
+  title       String
+  description String
+  createdAt   DateTime @default(now())
+
+  sessionId String
+  session   ParlementSession @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+
+  authorId String
+  author   User @relation("MotionAuthor", fields: [authorId], references: [id])
+
+  votes MotionVote[]
+}
+
+model MotionVote {
+  id        String         @id @default(cuid())
+  vote      MotionVoteType
+  createdAt DateTime       @default(now())
+
+  motionId String
+  motion   ParlementMotion @relation(fields: [motionId], references: [id], onDelete: Cascade)
+
+  userId String
+  user   User @relation(fields: [userId], references: [id])
+
+  @@unique([motionId, userId])
+}
+
+// ─── Gamification ────────────────────────────────────────────────────────────
+
+model PointTransaction {
+  id        String      @id @default(cuid())
+  action    PointAction
+  points    Int
+  label     String
+  createdAt DateTime    @default(now())
+
+  userId String
+  user   User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Badge {
+  id          String    @id @default(cuid())
+  slug        BadgeSlug @unique
+  name        String
+  description String
+  icon        String
+  points      Int       @default(0)
+
+  userBadges UserBadge[]
+}
+
+model UserBadge {
+  id       String   @id @default(cuid())
+  earnedAt DateTime @default(now())
+
+  userId String
+  user   User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  badgeId String
+  badge   Badge @relation(fields: [badgeId], references: [id])
+
+  @@unique([userId, badgeId])
+}
+
+// ─── NextAuth ─────────────────────────────────────────────────────────────────
+
+model Account {
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String?
+  access_token      String?
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String?
+  session_state     String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model VerificationToken {
+  identifier String
+  token      String   @unique
+  expires    DateTime
+
+  @@unique([identifier, token])
+}
