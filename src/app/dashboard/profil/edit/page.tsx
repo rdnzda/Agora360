@@ -12,10 +12,13 @@ export default function EditProfilPage() {
   const [success, setSuccess] = useState(false)
 
   useEffect(() => {
-    fetch("/api/profil").then((r) => r.json()).then((d) => {
-      if (d.user?.name) setName(d.user.name)
+    fetch("/api/profil").then((r) => {
+      if (r.status === 401) { router.push("/login"); return null }
+      return r.json()
+    }).then((d) => {
+      if (d?.user?.name) setName(d.user.name)
     })
-  }, [])
+  }, [router])
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault()

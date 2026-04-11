@@ -26,15 +26,27 @@ export async function POST(req: NextRequest) {
 
   const { title, description, category } = await req.json()
 
+  const VALID_CATEGORIES = ["SCOLARITE", "LOGEMENT", "INFORMATIQUE", "AUTRE"]
+
   if (!title || !description) {
     return Response.json({ error: "Titre et description requis." }, { status: 400 })
   }
 
+  if (typeof title !== "string" || title.trim().length < 3 || title.trim().length > 150) {
+    return Response.json({ error: "Le titre doit contenir entre 3 et 150 caractères." }, { status: 400 })
+  }
+
+  if (typeof description !== "string" || description.trim().length > 5000) {
+    return Response.json({ error: "La description ne peut pas dépasser 5000 caractères." }, { status: 400 })
+  }
+
+  const safeCategory = category && VALID_CATEGORIES.includes(category) ? category : "AUTRE"
+
   const ticket = await prisma.ticket.create({
     data: {
-      title,
-      description,
-      category: category ?? "AUTRE",
+      title: title.trim(),
+      description: description.trim(),
+      category: safeCategory,
       authorId: session.user.id,
     },
   })

@@ -46,6 +46,12 @@ export async function POST(
   if (!title?.trim() || !description?.trim()) {
     return NextResponse.json({ error: "title et description requis" }, { status: 400 })
   }
+  if (typeof title !== "string" || title.trim().length < 3 || title.trim().length > 200) {
+    return NextResponse.json({ error: "Le titre doit contenir entre 3 et 200 caractères." }, { status: 400 })
+  }
+  if (typeof description !== "string" || description.trim().length > 3000) {
+    return NextResponse.json({ error: "La description ne peut pas dépasser 3000 caractères." }, { status: 400 })
+  }
 
   const parlementSession = await prisma.parlementSession.findUnique({ where: { id: sessionId } })
   if (!parlementSession || parlementSession.status !== "ACTIF") {

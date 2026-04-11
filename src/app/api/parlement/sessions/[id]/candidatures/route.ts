@@ -42,6 +42,9 @@ export async function POST(
   if (!motivation?.trim()) {
     return NextResponse.json({ error: "motivation requis" }, { status: 400 })
   }
+  if (typeof motivation !== "string" || motivation.trim().length > 500) {
+    return NextResponse.json({ error: "La motivation ne peut pas dépasser 500 caractères." }, { status: 400 })
+  }
 
   const parlementSession = await prisma.parlementSession.findUnique({ where: { id: sessionId } })
   if (!parlementSession) return NextResponse.json({ error: "Session introuvable" }, { status: 404 })

@@ -1,0 +1,15 @@
+{
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Read",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node -e \"const i=require('fs').readFileSync(0,'utf8');const d=JSON.parse(i);const p=(d.tool_input&&d.tool_input.file_path)||'';const name=p.replace(/\\\\/g,'/').split('/').pop();if(/^\\.env(\\..*)?$/.test(name)){process.stdout.write(JSON.stringify({decision:'block',reason:'Lecture du .env bloquée par le hook de sécurité du projet.'}))}else{process.stdout.write(JSON.stringify({decision:'allow'}))}\""
+          }
+        ]
+      }
+    ]
+  }
+}

@@ -2,6 +2,7 @@
 
 import { useState } from "react"
 import { useRouter } from "next/navigation"
+import { toast } from "sonner"
 import { Button } from "@/components/ui/button"
 import { Textarea } from "@/components/ui/textarea"
 import { Label } from "@/components/ui/label"
@@ -38,24 +39,32 @@ export function AdminTicketActions({ ticketId, currentStatus, currentAssignedToI
 
   async function handleUpdate() {
     setLoading(true)
-    await fetch(`/api/tickets/${ticketId}`, {
+    const res = await fetch(`/api/tickets/${ticketId}`, {
       method: "PATCH",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ status, comment: comment || undefined }),
     })
-    setComment("")
     setLoading(false)
+    if (!res.ok) {
+      toast.error("Erreur lors de la mise à jour du ticket.")
+      return
+    }
+    setComment("")
     router.refresh()
   }
 
   async function handleAssign() {
     setLoading(true)
-    await fetch(`/api/tickets/${ticketId}`, {
+    const res = await fetch(`/api/tickets/${ticketId}`, {
       method: "PATCH",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ assignedToId: isAssignedToMe ? null : adminId }),
     })
     setLoading(false)
+    if (!res.ok) {
+      toast.error("Erreur lors de l'assignation.")
+      return
+    }
     router.refresh()
   }
 

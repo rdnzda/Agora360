@@ -1,4 +1,4 @@
-import { auth } from "@/lib/auth"
+import { getSession } from "@/lib/get-session"
 import { redirect } from "next/navigation"
 import { prisma } from "@/lib/prisma"
 import { Ticket, BarChart2, Wallet, Landmark } from "lucide-react"
@@ -9,7 +9,7 @@ import { RecentTickets } from "@/components/dashboard/recent-tickets"
 import { AdminStats } from "@/components/dashboard/admin-stats"
 
 export default async function DashboardPage() {
-  const session = await auth()
+  const session = await getSession()
   if (!session) redirect("/login")
 
   const isAdmin = session.user.role === "ADMIN"

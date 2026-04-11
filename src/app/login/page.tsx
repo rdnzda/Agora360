@@ -7,6 +7,7 @@ import { Eye, EyeOff, Shield } from "lucide-react"
 import { motion, AnimatePresence } from "framer-motion"
 import { toast } from "sonner"
 import Link from "next/link"
+import Image from "next/image"
 
 // ── Testimonials ──────────────────────────────────────────────────────────────
 
@@ -37,8 +38,7 @@ const GlassInput = ({ children }: { children: React.ReactNode }) => (
 
 const TestimonialCard = ({ t, delay }: { t: typeof testimonials[0]; delay: string }) => (
   <div className={`animate-testimonial ${delay} flex items-start gap-3 rounded-2xl glass border border-white/15 p-4 w-60 shrink-0`}>
-    {/* eslint-disable-next-line @next/next/no-img-element */}
-    <img src={t.avatarSrc} className="h-10 w-10 rounded-xl object-cover shrink-0" alt={t.name} />
+    <Image src={t.avatarSrc} width={40} height={40} className="rounded-xl object-cover shrink-0" alt={t.name} />
     <div className="text-sm leading-snug">
       <p className="font-semibold text-white">{t.name}</p>
       <p className="text-white/50 text-xs">{t.handle}</p>
@@ -72,6 +72,7 @@ export default function LoginPage() {
     } else {
       toast.success("Connexion réussie !")
       router.push("/dashboard")
+      router.refresh()
     }
   }
 
@@ -158,7 +159,7 @@ export default function LoginPage() {
             <button
               type="submit"
               disabled={loading}
-              className="btn-gradient w-full rounded-xl py-3.5 text-sm font-bold text-white disabled:opacity-60 cursor-pointer"
+              className="btn-primary w-full rounded-xl py-3.5 text-sm font-bold text-white disabled:opacity-60 cursor-pointer"
             >
               {loading ? "Connexion en cours…" : "Se connecter"}
             </button>

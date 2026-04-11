@@ -42,8 +42,16 @@ export async function POST(req: NextRequest) {
     return Response.json({ error: "Tous les champs sont requis." }, { status: 400 })
   }
 
-  if (password.length < 8) {
-    return Response.json({ error: "Le mot de passe doit faire au moins 8 caractères." }, { status: 400 })
+  if (typeof name !== "string" || name.trim().length < 2 || name.trim().length > 100) {
+    return Response.json({ error: "Le nom doit contenir entre 2 et 100 caractères." }, { status: 400 })
+  }
+
+  if (typeof email !== "string" || email.length > 254 || !/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email)) {
+    return Response.json({ error: "Email invalide." }, { status: 400 })
+  }
+
+  if (password.length < 8 || password.length > 128) {
+    return Response.json({ error: "Le mot de passe doit contenir entre 8 et 128 caractères." }, { status: 400 })
   }
 
   // Optional: domain restriction (set ALLOWED_EMAIL_DOMAINS env var as comma-separated list)

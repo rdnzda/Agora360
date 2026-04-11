@@ -63,21 +63,26 @@ export async function POST(
     return NextResponse.json({ error: "moodScore et wellbeing doivent être entre 1 et 5" }, { status: 400 })
   }
 
-  try {
-    const response = await prisma.barometreResponse.create({
-      data: {
-        sessionId,
-        userId: session.user.id,
-        moodScore,
-        wellbeing,
-        comment: comment?.trim() || null,
-      },
-    })
-    return NextResponse.json(response, { status: 201 })
-  } catch (err: unknown) {
-    if ((err as { code?: string }).code === "P2002") {
-      return NextResponse.json({ error: "Vous avez déjà répondu à cette session" }, { status: 409 })
-    }
-    throw err
+  if (comment !== undefined && (typeof comment !== "string" || comment.trim().length > 1000)) {
+    return NextResponse.json({ error: "Le commentaire ne peut pas dépasser 1000 caractères." }, { status: 400 })
   }
+
+  // Explicit pre-check instead of relying on P2002 error-code parsing
+  const existing = await prisma.barometreResponse.findUnique({
+    where: { sessionId_userId: { sessionId, userId: session.user.id } },
+  })
+  if (existing) {
+    return NextResponse.json({ error: "Vous avez déjà répondu à cette session" }, { status: 409 })
+  }
+
+  const response = await prisma.barometreResponse.create({
+    data: {
+      sessionId,
+      userId: session.user.id,
+      moodScore,
+      wellbeing,
+      comment: comment?.trim() || null,
+    },
+  })
+  return NextResponse.json(response, { status: 201 })
 }

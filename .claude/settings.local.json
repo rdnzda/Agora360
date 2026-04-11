@@ -1,0 +1,26 @@
+{
+  "permissions": {
+    "allow": [
+      "Read(//c/Users/REDEAN/.claude/plugins/marketplaces/ui-ux-pro-max-skill/.claude/skills/ui-ux-pro-max/**)",
+      "Bash(python scripts/search.py \"civic tech governance participative university portal SaaS modern minimal\" --design-system -p \"Agora360\" -f markdown)",
+      "Bash(python cli/assets/scripts/search.py \"civic tech governance university portal SaaS modern minimal professional\" --design-system -p \"Agora360\" -f markdown)",
+      "Bash(ls:*)",
+      "Bash(python cli/assets/scripts/search.py \"civic tech governance SaaS modern professional clean\" --domain typography)",
+      "Bash(npx tsc:*)",
+      "Bash(npm install:*)",
+      "Read(//c/Users/REDEAN/.claude/**)",
+      "Read(//c/Users/REDEAN/.config/claude/**)",
+      "Bash(python \"/c/Users/REDEAN/.claude/plugins/cache/ui-ux-pro-max-skill/ui-ux-pro-max/2.5.0/src/ui-ux-pro-max/scripts/search.py\" \"civic platform governance dashboard SaaS\" --design-system -p \"Agora360\" -f markdown)",
+      "Bash(claude mcp:*)",
+      "Bash(python:*)",
+      "Bash(npm run:*)",
+      "Bash(curl -s http://localhost:3000 -o /dev/null -w \"%{http_code}\")",
+      "mcp__playwright__browser_navigate",
+      "mcp__playwright__browser_take_screenshot",
+      "mcp__playwright__browser_snapshot",
+      "mcp__playwright__browser_fill_form",
+      "mcp__playwright__browser_click",
+      "mcp__playwright__browser_resize"
+    ]
+  }
+}

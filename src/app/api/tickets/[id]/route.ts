@@ -11,8 +11,13 @@ export async function GET(
 
   const { id } = await params
 
+  // Push ownership into the query — prevents fetching data the user can't see
+  const where = session.user.role === "ADMIN"
+    ? { id }
+    : { id, authorId: session.user.id }
+
   const ticket = await prisma.ticket.findUnique({
-    where: { id },
+    where,
     include: {
       author: { select: { id: true, name: true, email: true } },
       assignedTo: { select: { id: true, name: true } },
@@ -23,12 +28,8 @@ export async function GET(
     },
   })
 
-  if (!ticket) return Response.json({ error: "Ticket introuvable" }, { status: 404 })
-
-  // Un étudiant ne peut voir que ses propres tickets
-  if (session.user.role !== "ADMIN" && ticket.authorId !== session.user.id) {
-    return Response.json({ error: "Non autorisé" }, { status: 403 })
-  }
+  // Return 403 (not 404) so existence of other tickets isn't revealed
+  if (!ticket) return Response.json({ error: "Non autorisé" }, { status: 403 })
 
   return Response.json(ticket)
 }
@@ -45,6 +46,14 @@ export async function PATCH(
 
   const { id } = await params
   const { status, comment, assignedToId } = await req.json()
+
+  const VALID_STATUSES = ["OPEN", "IN_PROGRESS", "RESOLVED", "CLOSED"]
+  if (status !== undefined && !VALID_STATUSES.includes(status)) {
+    return Response.json({ error: "Statut invalide." }, { status: 400 })
+  }
+  if (comment !== undefined && (typeof comment !== "string" || comment.length > 2000)) {
+    return Response.json({ error: "Le commentaire ne peut pas dépasser 2000 caractères." }, { status: 400 })
+  }
 
   const ticket = await prisma.ticket.findUnique({ where: { id } })
   if (!ticket) return Response.json({ error: "Ticket introuvable" }, { status: 404 })

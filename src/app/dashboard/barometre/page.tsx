@@ -31,31 +31,45 @@ export default async function BarometrePage() {
         </FadeIn>
 
         <FadeIn delay={0.1}>
-          <div className="bg-card rounded-xl border border-border p-5 space-y-4">
-            <h2 className="text-sm font-semibold text-foreground">Nouvelle session</h2>
-            <CreateSessionForm />
+          <div className="bg-card rounded-xl border border-border overflow-hidden">
+            {/* Header stripe */}
+            <div className="flex items-center gap-3 px-5 py-4 border-b border-border">
+              <div className="w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center shrink-0">
+                <BarChart2 className="w-4 h-4 text-primary" />
+              </div>
+              <div>
+                <h2 className="text-sm font-semibold text-foreground">Nouvelle session</h2>
+                <p className="text-xs text-muted-foreground mt-0.5">Créez une session hebdomadaire pour recueillir les avis.</p>
+              </div>
+            </div>
+            <div className="p-5">
+              <CreateSessionForm />
+            </div>
           </div>
         </FadeIn>
 
         {sessions.length > 0 && (
           <FadeIn delay={0.2}>
             <div className="bg-card rounded-xl border border-border p-5">
-              <h2 className="text-sm font-semibold text-foreground mb-4">Sessions</h2>
-              {sessions.map((s) => (
-                <div key={s.id} className="flex items-center justify-between py-3 border-b border-border last:border-0">
+              <h2 className="text-sm font-semibold text-foreground mb-3">Sessions</h2>
+              <div className="space-y-1">
+                {sessions.map((s) => (
                   <SessionCard
+                    key={s.id}
                     id={s.id}
                     weekLabel={s.weekLabel}
                     status={s.status}
                     responseCount={s._count.responses}
                     isAdmin
+                    actions={
+                      <AdminSessionActions
+                        sessionId={s.id}
+                        currentStatus={s.status}
+                      />
+                    }
                   />
-                  <AdminSessionActions
-                    sessionId={s.id}
-                    currentStatus={s.status}
-                  />
-                </div>
-              ))}
+                ))}
+              </div>
             </div>
           </FadeIn>
         )}

@@ -180,7 +180,7 @@ export default function RegisterPage() {
             <button
               type="submit"
               disabled={loading}
-              className="btn-gradient w-full rounded-xl py-3.5 text-sm font-bold text-white disabled:opacity-60 cursor-pointer"
+              className="btn-primary w-full rounded-xl py-3.5 text-sm font-bold text-white disabled:opacity-60 cursor-pointer"
             >
               {loading ? "Création en cours…" : "Créer mon compte"}
             </button>

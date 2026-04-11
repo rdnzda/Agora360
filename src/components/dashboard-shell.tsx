@@ -3,11 +3,8 @@
 import { useState } from "react"
 import { Menu, X } from "lucide-react"
 import { motion, AnimatePresence } from "framer-motion"
-import { useTheme } from "next-themes"
-import { Sun, Moon } from "lucide-react"
 import { Sidebar } from "./sidebar"
 import { Agora360Icon } from "@/components/logo"
-import { useEffect } from "react"
 
 type Props = {
   userName: string
@@ -17,9 +14,6 @@ type Props = {
 
 export function DashboardShell({ userName, userRole, children }: Props) {
   const [open, setOpen] = useState(false)
-  const { resolvedTheme, setTheme } = useTheme()
-  const [mounted, setMounted] = useState(false)
-  useEffect(() => setMounted(true), [])
 
   return (
     <div className="flex min-h-screen bg-background">
@@ -31,9 +25,9 @@ export function DashboardShell({ userName, userRole, children }: Props) {
         Aller au contenu principal
       </a>
 
-      {/* Desktop sidebar — slim icon-only */}
+      {/* Desktop sidebar — full with labels */}
       <div className="hidden md:flex">
-        <Sidebar userName={userName} userRole={userRole} variant="slim" />
+        <Sidebar userName={userName} userRole={userRole} variant="full" />
       </div>
 
       {/* Mobile overlay */}
@@ -84,18 +78,6 @@ export function DashboardShell({ userName, userRole, children }: Props) {
             <span className="text-base font-extrabold tracking-tight text-gradient-primary">Agora360</span>
           </div>
           <div className="ml-auto flex items-center gap-2">
-            {mounted && (
-              <button
-                onClick={() => setTheme(resolvedTheme === "dark" ? "light" : "dark")}
-                className="p-1.5 rounded-lg text-sidebar-foreground/60 hover:bg-sidebar-accent transition-colors cursor-pointer"
-                aria-label="Basculer le thème"
-              >
-                {resolvedTheme === "dark"
-                  ? <Sun className="w-4 h-4 text-sidebar-foreground" />
-                  : <Moon className="w-4 h-4 text-sidebar-foreground" />
-                }
-              </button>
-            )}
             <button
               onClick={() => setOpen(false)}
               className={cn("p-1.5 rounded-lg text-sidebar-foreground/60 hover:bg-sidebar-accent transition-colors cursor-pointer", open ? "" : "invisible")}
