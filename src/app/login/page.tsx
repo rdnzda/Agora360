@@ -2,7 +2,6 @@
 
 import { useState } from "react"
 import { signIn } from "next-auth/react"
-import { useRouter } from "next/navigation"
 import { Eye, EyeOff, Shield } from "lucide-react"
 import { motion, AnimatePresence } from "framer-motion"
 import { toast } from "sonner"
@@ -50,7 +49,6 @@ const TestimonialCard = ({ t, delay }: { t: typeof testimonials[0]; delay: strin
 // ── Page ──────────────────────────────────────────────────────────────────────
 
 export default function LoginPage() {
-  const router = useRouter()
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
   const [showPassword, setShowPassword] = useState(false)
@@ -71,8 +69,7 @@ export default function LoginPage() {
       setLoading(false)
     } else {
       toast.success("Connexion réussie !")
-      router.push("/dashboard")
-      router.refresh()
+      window.location.href = "/dashboard"
     }
   }
 
