@@ -122,7 +122,7 @@ export default function SettingsPage() {
   }
 
   return (
-    <div className="p-4 md:p-8 max-w-2xl space-y-6">
+    <div className="p-4 md:p-8 space-y-6">
       <FadeIn>
         <div>
           <h1 className="text-xl font-bold text-foreground">Paramètres</h1>

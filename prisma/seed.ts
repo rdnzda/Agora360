@@ -18,6 +18,8 @@ async function main() {
   await prisma.budgetProject.deleteMany()
   await prisma.barometreResponse.deleteMany()
   await prisma.barometreSession.deleteMany()
+  await prisma.faqAnswer.deleteMany()
+  await prisma.faqQuestion.deleteMany()
   await prisma.userBadge.deleteMany()
   await prisma.pointTransaction.deleteMany()
   await prisma.badge.deleteMany()
@@ -784,7 +786,7 @@ async function main() {
   })
 
   // ── Points & Badges (gamification réaliste) ───────────────────────────────
-  type PointDef = { action: "TICKET_SUBMITTED"|"TICKET_RESOLVED"|"BAROMETRE_RESPONDED"|"BUDGET_VOTED"|"PARLEMENT_APPLIED"|"PARLEMENT_ELECTED"|"MOTION_CREATED"|"MOTION_VOTED"; points: number; label: string; createdAt: Date }
+  type PointDef = { action: "TICKET_SUBMITTED"|"TICKET_RESOLVED"|"BAROMETRE_RESPONDED"|"BUDGET_VOTED"|"PARLEMENT_APPLIED"|"PARLEMENT_ELECTED"|"MOTION_CREATED"|"MOTION_VOTED"|"FAQ_ANSWER_GIVEN"|"FAQ_ANSWER_ACCEPTED"; points: number; label: string; createdAt: Date }
 
   const userPoints: Record<string, PointDef[]> = {
     [alice.id]: [
@@ -890,6 +892,136 @@ async function main() {
     })
   }
 
+  // ── FAQ ────────────────────────────────────────────────────────────────────
+  type FaqDef = {
+    title: string; body?: string; resolved: boolean; authorId: string; createdAt: Date
+    answers: { body: string; authorId: string; accepted: boolean; createdAt: Date }[]
+  }
+
+  const faqDefs: FaqDef[] = [
+    {
+      title: "Comment obtenir une attestation de scolarité ?",
+      body: "J'en ai besoin pour ma CAF et je ne sais pas si je dois passer par la scolarité ou si je peux la télécharger en ligne.",
+      resolved: true,
+      authorId: dylan.id,
+      createdAt: d("2026-03-05T10:00:00"),
+      answers: [
+        { body: "Tu peux la télécharger directement depuis ton ENT, rubrique « Mes documents » > « Attestations ». Elle est disponible en PDF signé électroniquement, donc valide pour la CAF.", authorId: léa.id,    accepted: true,  createdAt: d("2026-03-05T11:30:00") },
+        { body: "Si l'ENT ne fonctionne pas, passe directement à la scolarité bâtiment B (bureau 104), ils l'éditent en 5 minutes.", authorId: admin.id, accepted: false, createdAt: d("2026-03-05T14:00:00") },
+      ],
+    },
+    {
+      title: "Quelle est la procédure pour contester une note ?",
+      body: "J'ai eu une note qui me semble incohérente avec ma copie. Est-ce que je dois passer par un ticket ou il y a une procédure officielle ?",
+      resolved: true,
+      authorId: kevin.id,
+      createdAt: d("2026-03-12T09:00:00"),
+      answers: [
+        { body: "La procédure officielle est de contacter directement l'enseignant concerné dans les 15 jours suivant la publication des notes. S'il ne répond pas sous 5 jours ouvrés, tu peux ouvrir un ticket GPS Admin avec la catégorie Scolarité.", authorId: admin.id, accepted: true,  createdAt: d("2026-03-12T10:00:00") },
+        { body: "J'ai fait pareil en janvier. Conseil : demande la consultation de ta copie d'abord, ça permet souvent de résoudre le malentendu sans passer par l'administration.", authorId: alice.id, accepted: false, createdAt: d("2026-03-12T11:00:00") },
+      ],
+    },
+    {
+      title: "Les salles de travail en groupe sont-elles réservables en ligne ?",
+      resolved: false,
+      authorId: chloé.id,
+      createdAt: d("2026-03-20T14:00:00"),
+      answers: [
+        { body: "Oui, via l'ENT > Services > Réservation de salles. Attention, les salles de la BU se réservent séparément sur le site de la bibliothèque. Max 2h par réservation.", authorId: bob.id,   accepted: false, createdAt: d("2026-03-20T15:00:00") },
+        { body: "Les salles du bâtiment C sont aussi disponibles sur l'application mobile de l'université, parfois avec des créneaux libres le soir.", authorId: farid.id, accepted: false, createdAt: d("2026-03-21T09:00:00") },
+      ],
+    },
+    {
+      title: "Comment fonctionne le système de points sur Agora360 ?",
+      body: "Je vois que j'accumule des points en participant aux différentes sections mais je ne comprends pas bien comment ça marche et à quoi ça sert.",
+      resolved: true,
+      authorId: nora.id,
+      createdAt: d("2026-03-28T11:00:00"),
+      answers: [
+        { body: "Les points récompensent ta participation citoyenne : répondre au baromètre (+30 pts), voter pour un projet (+20 pts), participer au parlement (+100 pts), répondre dans la FAQ (+25 pts). Une boutique sera bientôt disponible pour les échanger contre des avantages.", authorId: admin.id, accepted: true,  createdAt: d("2026-03-28T14:00:00") },
+      ],
+    },
+    {
+      title: "Est-il possible de changer de groupe de TD en cours de semestre ?",
+      body: "Mon emploi du temps est incompatible avec mon mi-temps étudiant. Y a-t-il une procédure pour changer de groupe ?",
+      resolved: false,
+      authorId: mathieu.id,
+      createdAt: d("2026-04-02T08:30:00"),
+      answers: [
+        { body: "C'est possible dans les 3 premières semaines du semestre, après accord de l'enseignant responsable et validation de la scolarité. Passé ce délai, il faut un motif exceptionnel (médical, professionnel avec justificatif).", authorId: alice.id, accepted: false, createdAt: d("2026-04-02T10:00:00") },
+      ],
+    },
+    {
+      title: "Y a-t-il un service d'impression gratuit pour les étudiants boursiers ?",
+      resolved: false,
+      authorId: emma.id,
+      createdAt: d("2026-04-07T16:00:00"),
+      answers: [
+        { body: "Oui, les étudiants boursiers B2 et B3 bénéficient de 100 pages d'impression gratuites par mois, à utiliser dans la salle informatique du RDC bibliothèque. La quota se recharge automatiquement le 1er de chaque mois.", authorId: admin.id, accepted: false, createdAt: d("2026-04-08T09:00:00") },
+        { body: "Sinon la reprographie au sous-sol du bâtiment A propose des tarifs réduits pour tous les étudiants (0,05 €/page N&B), pas besoin d'être boursier.", authorId: jade.id,  accepted: false, createdAt: d("2026-04-08T10:30:00") },
+      ],
+    },
+    {
+      title: "Comment signaler un problème de harcèlement sur le campus ?",
+      body: "Une amie subit des remarques répétées d'un autre étudiant et ne sait pas à qui s'adresser.",
+      resolved: true,
+      authorId: léa.id,
+      createdAt: d("2026-04-09T10:00:00"),
+      answers: [
+        { body: "Il existe une cellule de signalement dédiée : cellule-egalite@univ.fr (traitement confidentiel sous 48h). Elle peut aussi se rendre directement au service vie étudiante (bâtiment A, bureau 210) sans rendez-vous, du lundi au vendredi de 9h à 12h.", authorId: admin.id, accepted: true,  createdAt: d("2026-04-09T11:00:00") },
+      ],
+    },
+    {
+      title: "Le restaurant universitaire accepte-t-il les paiements sans contact ?",
+      resolved: false,
+      authorId: farid.id,
+      createdAt: d("2026-04-11T12:00:00"),
+      answers: [
+        { body: "Oui, depuis janvier 2026 les trois RU acceptent CB, Apple Pay et Google Pay. La carte Izly reste recommandée car elle permet d'appliquer automatiquement le tarif boursier.", authorId: kevin.id, accepted: false, createdAt: d("2026-04-11T13:00:00") },
+      ],
+    },
+  ]
+
+  for (const def of faqDefs) {
+    const q = await prisma.faqQuestion.create({
+      data: {
+        title: def.title,
+        body: def.body ?? null,
+        resolved: def.resolved,
+        authorId: def.authorId,
+        createdAt: def.createdAt,
+      },
+    })
+    for (const a of def.answers) {
+      await prisma.faqAnswer.create({
+        data: { body: a.body, authorId: a.authorId, questionId: q.id, accepted: a.accepted, createdAt: a.createdAt },
+      })
+      // Award points for answering (not own question)
+      if (a.authorId !== def.authorId) {
+        await prisma.pointTransaction.create({
+          data: {
+            userId: a.authorId,
+            action: "FAQ_ANSWER_GIVEN",
+            points: 25,
+            label: `Réponse FAQ : « ${def.title.slice(0, 60)} »`,
+            createdAt: a.createdAt,
+          },
+        })
+        if (a.accepted) {
+          await prisma.pointTransaction.create({
+            data: {
+              userId: a.authorId,
+              action: "FAQ_ANSWER_ACCEPTED",
+              points: 50,
+              label: `Réponse acceptée : « ${def.title.slice(0, 60)} »`,
+              createdAt: a.createdAt,
+            },
+          })
+        }
+      }
+    }
+  }
+
   // ── Résumé ─────────────────────────────────────────────────────────────────
   console.log("\n✅ Seed CreaCampus terminé :\n")
   console.log("  👤 Comptes :")
@@ -901,7 +1033,8 @@ async function main() {
   console.log(`  🏛️  3 sessions parlement (1 clôturée, 1 active, 1 en candidatures)`)
   console.log(`  📜 5 motions avec votes`)
   console.log(`  🏅 7 badges — attribués à tous les étudiants actifs`)
-  console.log(`  ⭐ Points gamification pour 11 étudiants\n`)
+  console.log(`  ⭐ Points gamification pour 11 étudiants`)
+  console.log(`  💬 8 questions FAQ (4 résolues) avec réponses\n`)
 }
 
 main()

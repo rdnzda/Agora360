@@ -84,6 +84,8 @@ enum PointAction {
   PARLEMENT_ELECTED
   MOTION_CREATED
   MOTION_VOTED
+  FAQ_ANSWER_GIVEN
+  FAQ_ANSWER_ACCEPTED
 }
 
 enum BadgeSlug {
@@ -127,6 +129,10 @@ model User {
   // Gamification
   pointTransactions PointTransaction[]
   userBadges        UserBadge[]
+
+  // FAQ
+  faqQuestions FaqQuestion[]
+  faqAnswers   FaqAnswer[]
 
   // NextAuth
   accounts Account[]
@@ -317,6 +323,35 @@ model UserBadge {
   badge   Badge @relation(fields: [badgeId], references: [id])
 
   @@unique([userId, badgeId])
+}
+
+// ─── FAQ ─────────────────────────────────────────────────────────────────────
+
+model FaqQuestion {
+  id        String      @id @default(cuid())
+  title     String
+  body      String?
+  resolved  Boolean     @default(false)
+  createdAt DateTime    @default(now())
+  updatedAt DateTime    @updatedAt
+
+  authorId String
+  author   User   @relation(fields: [authorId], references: [id])
+
+  answers FaqAnswer[]
+}
+
+model FaqAnswer {
+  id        String   @id @default(cuid())
+  body      String
+  accepted  Boolean  @default(false)
+  createdAt DateTime @default(now())
+
+  authorId   String
+  author     User   @relation(fields: [authorId], references: [id])
+
+  questionId String
+  question   FaqQuestion @relation(fields: [questionId], references: [id], onDelete: Cascade)
 }
 
 // ─── NextAuth ─────────────────────────────────────────────────────────────────

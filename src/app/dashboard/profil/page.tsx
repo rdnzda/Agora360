@@ -31,7 +31,7 @@ export default async function ProfilPage() {
 
   const userId = session.user.id
 
-  const [user, pointsAgg, earnedBadges, recentTransactions, ticketCount, barometreCount, voteCount, candidatureCount] =
+  const [user, pointsAgg, earnedBadges, recentTransactions, ticketCount, barometreCount, voteCount, candidatureCount, faqAnswerCount] =
     await Promise.all([
       prisma.user.findUnique({
         where: { id: userId },
@@ -51,6 +51,7 @@ export default async function ProfilPage() {
       prisma.barometreResponse.count({ where: { userId } }),
       prisma.projectVote.count({ where: { userId } }),
       prisma.parlementCandidature.count({ where: { userId } }),
+      prisma.faqAnswer.count({ where: { authorId: userId } }),
     ])
 
   const totalPoints = pointsAgg._sum.points ?? 0
@@ -121,7 +122,7 @@ export default async function ProfilPage() {
       <FadeIn delay={0.1}>
         <div className="bg-card rounded-xl border border-border p-5">
           <h2 className="text-sm font-semibold text-foreground mb-4">Activité</h2>
-          <StatsGrid stats={{ ticketCount, barometreCount, voteCount, candidatureCount }} />
+          <StatsGrid stats={{ ticketCount, barometreCount, voteCount, candidatureCount, faqAnswerCount }} />
         </div>
       </FadeIn>
 

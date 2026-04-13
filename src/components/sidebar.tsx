@@ -16,6 +16,8 @@ import {
   LogOut,
   Sun,
   Moon,
+  ShoppingBag,
+  MessageCircleQuestion,
 } from "lucide-react"
 import { motion } from "framer-motion"
 import { useEffect, useState } from "react"
@@ -62,6 +64,22 @@ const navItems = [
     active: true,
     exact: false,
     iconColor: "text-[oklch(0.72_0.19_195)]",
+  },
+  {
+    label: "FAQ",
+    href: "/dashboard/faq",
+    icon: MessageCircleQuestion,
+    active: true,
+    exact: false,
+    iconColor: "text-[oklch(0.68_0.18_150)]",
+  },
+  {
+    label: "Boutique",
+    href: "/dashboard/boutique",
+    icon: ShoppingBag,
+    active: true,
+    exact: false,
+    iconColor: "text-[oklch(0.72_0.20_90)]",
   },
   {
     label: "Mon Profil",
