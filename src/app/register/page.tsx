@@ -185,6 +185,29 @@ export default function RegisterPage() {
             </button>
           </form>
 
+          {/* Séparateur */}
+          <div className="flex items-center gap-3">
+            <div className="flex-1 h-px bg-border" />
+            <span className="text-xs text-muted-foreground/50">ou</span>
+            <div className="flex-1 h-px bg-border" />
+          </div>
+
+          {/* Bouton ENT — bientôt disponible */}
+          <div className="relative">
+            <button
+              disabled
+              className="w-full rounded-xl py-3.5 text-sm font-semibold border border-border bg-muted/40 text-muted-foreground/50 cursor-not-allowed flex items-center justify-center gap-2.5"
+            >
+              <svg className="w-4 h-4 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/><line x1="12" y1="12" x2="12" y2="16"/><line x1="10" y1="14" x2="14" y2="14"/>
+              </svg>
+              S'inscrire avec mon compte ENT
+            </button>
+            <span className="absolute -top-2 right-3 px-1.5 py-0.5 rounded-md bg-muted border border-border text-[10px] font-medium text-muted-foreground/60">
+              Bientôt disponible
+            </span>
+          </div>
+
           <p className="text-center text-sm text-muted-foreground">
             Déjà un compte ?{" "}
             <Link href="/login" className="text-primary font-semibold hover:text-primary/80 transition-colors">
