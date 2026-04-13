@@ -43,7 +43,7 @@ export async function POST(req: NextRequest) {
     },
     include: {
       author: { select: { id: true, name: true, image: true, role: true } },
-      answers: [],
+      answers: true,
     },
   })
 
