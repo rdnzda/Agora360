@@ -86,11 +86,11 @@ export default function LoginPage() {
         >
           {/* Branding */}
           <div>
-            <div className="flex items-center gap-3 mb-4">
+            <Link href="/" className="flex items-center gap-3 mb-4 w-fit hover:opacity-80 transition-opacity">
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img src="/agora.svg" alt="Agora360" width={40} height={40} className="shrink-0" />
               <span className="font-extrabold text-xl tracking-tight text-gradient-primary">Agora360</span>
-            </div>
+            </Link>
             <h1 className="text-3xl md:text-4xl font-extrabold text-foreground leading-tight">
               Bon retour 👋
             </h1>
