@@ -31,9 +31,8 @@ export function LandingNavbar() {
       <div className="relative max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
         {/* Logo */}
         <Link href="/" className="flex items-center gap-2">
-          <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-primary to-accent flex items-center justify-center">
-            <span className="text-white font-bold text-sm">A</span>
-          </div>
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src="/agora.svg" alt="Agora360" width={32} height={32} className="shrink-0" />
           <span className="font-extrabold text-lg tracking-tight text-gradient-primary">
             Agora360
           </span>
@@ -55,7 +54,7 @@ export function LandingNavbar() {
           )}
           <Link
             href="/login"
-            className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
+            className="hidden sm:inline text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
           >
             Connexion
           </Link>

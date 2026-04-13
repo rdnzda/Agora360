@@ -13,6 +13,7 @@ export default async function DashboardLayout({ children }: { children: React.Re
     <DashboardShell
       userName={session.user.name ?? "Utilisateur"}
       userRole={session.user.role}
+      userImage={session.user.image}
     >
       {children}
     </DashboardShell>

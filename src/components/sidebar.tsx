@@ -12,6 +12,7 @@ import {
   BarChart2,
   Wallet,
   UserCircle,
+  Settings,
   LogOut,
   Sun,
   Moon,
@@ -70,6 +71,14 @@ const navItems = [
     exact: false,
     iconColor: "text-[oklch(0.68_0.20_10)]",
   },
+  {
+    label: "Paramètres",
+    href: "/dashboard/settings",
+    icon: Settings,
+    active: true,
+    exact: false,
+    iconColor: "text-[oklch(0.65_0.05_240)]",
+  },
 ]
 
 /* ── Tooltip helper pour la sidebar slim ─────────────────────────────── */
@@ -95,11 +104,13 @@ type SidebarVariant = "slim" | "full"
 export function Sidebar({
   userName,
   userRole,
+  userImage,
   onNavigate,
   variant = "slim",
 }: {
   userName: string
   userRole: string
+  userImage?: string | null
   onNavigate?: () => void
   variant?: SidebarVariant
 }) {
@@ -171,9 +182,16 @@ export function Sidebar({
             <Link
               href="/dashboard/profil"
               onClick={onNavigate}
-              className="w-9 h-9 rounded-xl bg-gradient-to-br from-primary to-sidebar-primary flex items-center justify-center text-white font-bold text-sm hover:ring-2 hover:ring-sidebar-primary/40 transition-all"
+              className="w-9 h-9 rounded-xl overflow-hidden hover:ring-2 hover:ring-sidebar-primary/40 transition-all shrink-0"
             >
-              {userName.charAt(0).toUpperCase()}
+              {userImage ? (
+                // eslint-disable-next-line @next/next/no-img-element
+                <img src={userImage} alt={userName} className="w-full h-full object-cover" />
+              ) : (
+                <span className="w-full h-full bg-gradient-to-br from-primary to-sidebar-primary flex items-center justify-center text-white font-bold text-sm">
+                  {userName.charAt(0).toUpperCase()}
+                </span>
+              )}
             </Link>
           </NavTooltip>
 
@@ -291,8 +309,15 @@ export function Sidebar({
       {/* Footer */}
       <div className="p-4 border-t border-sidebar-border space-y-3">
         <div className="flex items-center gap-3">
-          <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-primary to-sidebar-primary flex items-center justify-center shrink-0 text-white font-bold text-sm">
-            {userName.charAt(0).toUpperCase()}
+          <div className="w-9 h-9 rounded-xl overflow-hidden shrink-0">
+            {userImage ? (
+              // eslint-disable-next-line @next/next/no-img-element
+              <img src={userImage} alt={userName} className="w-full h-full object-cover" />
+            ) : (
+              <span className="w-full h-full bg-gradient-to-br from-primary to-sidebar-primary flex items-center justify-center text-white font-bold text-sm">
+                {userName.charAt(0).toUpperCase()}
+              </span>
+            )}
           </div>
           <div className="flex-1 min-w-0">
             <p className="text-sm font-semibold text-sidebar-foreground truncate">{userName}</p>

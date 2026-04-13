@@ -9,7 +9,7 @@ import { BadgeCard } from "@/components/profil/badge-card"
 import { PointHistory } from "@/components/profil/point-history"
 import { LevelIndicator } from "@/components/profil/level-indicator"
 import { StatsGrid } from "@/components/profil/stats-grid"
-import { Pencil, Ticket, ThumbsUp, BarChart2, Star, Landmark, FileText, Users } from "lucide-react"
+import { Pencil, Settings, Ticket, ThumbsUp, BarChart2, Star, Landmark, FileText, Users } from "lucide-react"
 
 // Catalogue complet des badges (icônes en JSX pour compatibilité Server → Client)
 const iconCls = (earned: boolean) =>
@@ -35,7 +35,7 @@ export default async function ProfilPage() {
     await Promise.all([
       prisma.user.findUnique({
         where: { id: userId },
-        select: { name: true, email: true, role: true, createdAt: true },
+        select: { name: true, email: true, image: true, role: true, createdAt: true },
       }),
       prisma.pointTransaction.aggregate({ where: { userId }, _sum: { points: true } }),
       prisma.userBadge.findMany({
@@ -66,14 +66,20 @@ export default async function ProfilPage() {
       {/* En-tête profil */}
       <FadeIn>
         <div className="bg-card rounded-xl border border-border p-5">
-          <div className="flex items-start justify-between gap-3">
-            <div className="flex items-center gap-4">
-              <div className="w-14 h-14 rounded-full bg-primary/10 flex items-center justify-center text-primary font-bold text-xl">
-                {user?.name?.charAt(0).toUpperCase()}
+          <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4">
+            {/* Avatar + infos */}
+            <div className="flex items-center gap-4 min-w-0">
+              <div className="w-14 h-14 rounded-full overflow-hidden shrink-0 bg-primary/10 flex items-center justify-center">
+                {user?.image ? (
+                  // eslint-disable-next-line @next/next/no-img-element
+                  <img src={user.image} alt={user.name} className="w-full h-full object-cover" />
+                ) : (
+                  <span className="text-primary font-bold text-xl">{user?.name?.charAt(0).toUpperCase()}</span>
+                )}
               </div>
-              <div>
+              <div className="min-w-0">
                 <h1 className="text-lg font-bold text-foreground">{user?.name}</h1>
-                <p className="text-sm text-muted-foreground">{user?.email}</p>
+                <p className="text-sm text-muted-foreground truncate">{user?.email}</p>
                 <div className="flex flex-wrap items-center gap-2 mt-1">
                   <Badge variant="outline" className="text-xs">
                     {user?.role === "ADMIN" ? "Administration" : "Étudiant"}
@@ -84,12 +90,21 @@ export default async function ProfilPage() {
                 </div>
               </div>
             </div>
-            <Link href="/dashboard/profil/edit">
-              <Button size="sm" variant="outline" className="gap-1.5">
-                <Pencil className="w-3.5 h-3.5" />
-                Modifier
-              </Button>
-            </Link>
+            {/* Actions */}
+            <div className="flex gap-2 shrink-0">
+              <Link href="/dashboard/profil/edit">
+                <Button size="sm" variant="outline" className="gap-1.5">
+                  <Pencil className="w-3.5 h-3.5" />
+                  <span className="hidden xs:inline">Modifier</span>
+                </Button>
+              </Link>
+              <Link href="/dashboard/settings">
+                <Button size="sm" variant="outline" className="gap-1.5">
+                  <Settings className="w-3.5 h-3.5" />
+                  <span className="hidden xs:inline">Paramètres</span>
+                </Button>
+              </Link>
+            </div>
           </div>
         </div>
       </FadeIn>
@@ -118,11 +133,12 @@ export default async function ProfilPage() {
             <span className="text-xs text-muted-foreground">{earnedSlugs.size}/{BADGE_CATALOG.length} obtenus</span>
           </div>
           <StaggerList className="grid grid-cols-2 md:grid-cols-3 gap-3">
-            {BADGE_CATALOG.map((badge) => {
+            {BADGE_CATALOG.map((badge, index) => {
               const earned = earnedSlugs.has(badge.slug as Parameters<typeof earnedSlugs.has>[0])
               const userBadge = earnedBadges.find((ub) => ub.badge.slug === badge.slug)
+              const isOrphan = index === BADGE_CATALOG.length - 1 && BADGE_CATALOG.length % 2 !== 0
               return (
-                <StaggerItem key={badge.slug}>
+                <StaggerItem key={badge.slug} className={isOrphan ? "col-span-2 md:col-span-1 justify-self-center w-1/2 md:w-full" : ""}>
                   <BadgeCard
                     name={badge.name}
                     description={badge.description}
