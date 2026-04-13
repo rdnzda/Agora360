@@ -174,7 +174,7 @@ function QuestionCard({
 
     if (!res.ok) { toast.error(data.error || "Erreur lors de l'envoi."); return }
 
-    const isOwnQuestion = question.authorId === currentUserId
+    const isOwnQuestion = question.author.id === currentUserId
     if (!isOwnQuestion) toast.success("+25 pts gagnés pour votre réponse !")
     else toast.success("Réponse publiée.")
 
