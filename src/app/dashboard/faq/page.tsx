@@ -258,7 +258,7 @@ function QuestionCard({
                       key={answer.id}
                       answer={answer}
                       questionId={question.id}
-                      questionAuthorId={question.authorId}
+                      questionAuthorId={question.author.id}
                       currentUserId={currentUserId}
                       currentUserRole={currentUserRole}
                       onAccepted={onUpdate}
