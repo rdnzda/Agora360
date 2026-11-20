@@ -12,13 +12,10 @@ export function AuthAside() {
   return (
     <aside className="hidden md:flex flex-1 panel-civic">
       <div className="flex flex-col justify-between w-full max-w-xl mx-auto px-10 lg:px-14 py-14">
-        <p className="flex items-center gap-3 text-sm font-semibold opacity-85">
-          <span aria-hidden="true" className="inline-block w-8 h-0.5 bg-current" />
-          Gouvernance participative universitaire
-        </p>
+        <span aria-hidden="true" />
 
         <div>
-          <h2 className="text-4xl lg:text-5xl font-semibold leading-[1.05] tracking-tight">
+          <h2 className="text-4xl lg:text-5xl font-extrabold leading-[1.08] tracking-tight">
             Suivez vos dossiers, votez, co-décidez.
           </h2>
           <ul className="mt-10 border-t border-current/25">

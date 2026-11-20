@@ -22,12 +22,13 @@ import {
 import { motion } from "framer-motion"
 import { useEffect, useState } from "react"
 import { Tooltip } from "@base-ui/react/tooltip"
-import { Agora360LogoBadge } from "@/components/logo"
+import { Agora360LogoBadge, Agora360Wordmark } from "@/components/logo"
 
 const navItems = [
   {
     label: "Tableau de bord",
     href: "/dashboard",
+    tone: "tone-neutral",
     icon: LayoutDashboard,
     active: true,
     exact: true,
@@ -35,6 +36,7 @@ const navItems = [
   {
     label: "GPS Admin",
     href: "/dashboard/tickets",
+    tone: "tone-gps",
     icon: Ticket,
     active: true,
     exact: false,
@@ -42,6 +44,7 @@ const navItems = [
   {
     label: "Parlement Éphémère",
     href: "/dashboard/parlement",
+    tone: "tone-parlement",
     icon: Landmark,
     active: true,
     exact: false,
@@ -49,6 +52,7 @@ const navItems = [
   {
     label: "Baromètre",
     href: "/dashboard/barometre",
+    tone: "tone-barometre",
     icon: BarChart2,
     active: true,
     exact: false,
@@ -56,6 +60,7 @@ const navItems = [
   {
     label: "Budget Participatif",
     href: "/dashboard/budget",
+    tone: "tone-budget",
     icon: Wallet,
     active: true,
     exact: false,
@@ -63,6 +68,7 @@ const navItems = [
   {
     label: "FAQ",
     href: "/dashboard/faq",
+    tone: "tone-faq",
     icon: MessageCircleQuestion,
     active: true,
     exact: false,
@@ -70,6 +76,7 @@ const navItems = [
   {
     label: "Boutique",
     href: "/dashboard/boutique",
+    tone: "tone-boutique",
     icon: ShoppingBag,
     active: true,
     exact: false,
@@ -77,6 +84,7 @@ const navItems = [
   {
     label: "Mon Profil",
     href: "/dashboard/profil",
+    tone: "tone-profil",
     icon: UserCircle,
     active: true,
     exact: false,
@@ -84,6 +92,7 @@ const navItems = [
   {
     label: "Paramètres",
     href: "/dashboard/settings",
+    tone: "tone-neutral",
     icon: Settings,
     active: true,
     exact: false,
@@ -131,7 +140,7 @@ export function Sidebar({
   /* ── Slim sidebar (desktop) ────────────────────────────────────────── */
   if (variant === "slim") {
     return (
-      <aside className="w-14 min-h-screen bg-sidebar border-r border-sidebar-border flex flex-col items-center">
+      <aside className="on-dark w-14 min-h-screen bg-sidebar border-r border-sidebar-border flex flex-col items-center">
         {/* Brand — logo icône */}
         <div className="py-5 w-full border-b border-sidebar-border flex justify-center">
           <NavTooltip label="Agora360">
@@ -187,7 +196,7 @@ export function Sidebar({
         {/* Footer */}
         <div className="py-4 w-full border-t border-sidebar-border flex flex-col items-center gap-2">
           {/* Avatar → lien profil */}
-          <NavTooltip label={`${userName} · ${userRole === "ADMIN" ? "Admin" : "Étudiant"}`}>
+          <NavTooltip label={`${userName} (${userRole === "ADMIN" ? "Admin" : "Étudiant"})`}>
             <Link
               href="/dashboard/profil"
               onClick={onNavigate}
@@ -234,14 +243,12 @@ export function Sidebar({
 
   /* ── Full sidebar (mobile drawer) ─────────────────────────────────── */
   return (
-    <aside className="w-64 min-h-screen bg-sidebar border-r border-sidebar-border flex flex-col">
+    <aside className="on-dark w-64 min-h-screen bg-sidebar border-r border-sidebar-border flex flex-col">
       {/* Brand */}
       <div className="px-5 py-5 border-b border-sidebar-border">
         <div className="flex items-center gap-2.5">
           <Agora360LogoBadge className="w-8 h-8" />
-          <div className="font-serif text-xl font-semibold tracking-tight text-sidebar-foreground">
-            Agora360
-          </div>
+          <Agora360Wordmark onDark className="text-xl" />
         </div>
         <div className="text-xs text-sidebar-foreground/65 mt-2 flex items-center gap-1.5">
           Gouvernance participative
@@ -290,8 +297,9 @@ export function Sidebar({
                 )}
               >
                 <Icon className={cn(
-                  "w-[18px] h-[18px] shrink-0",
-                  isActive ? "text-sidebar-primary" : "text-sidebar-foreground/55"
+                  "w-[18px] h-[18px] shrink-0 tone-text",
+                  item.tone,
+                  !isActive && "opacity-80"
                 )} />
                 <span>{item.label}</span>
               </Link>

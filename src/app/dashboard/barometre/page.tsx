@@ -166,7 +166,7 @@ export default async function BarometrePage() {
 
             <Link href={`/dashboard/barometre/resultats/${openSession.id}`}>
               <Button variant="outline" size="sm" className="w-full">
-                Voir les résultats complets →
+                Voir les résultats complets
               </Button>
             </Link>
           </div>

@@ -4,6 +4,7 @@ import Link from "next/link"
 import { useTheme } from "next-themes"
 import { Sun, Moon } from "lucide-react"
 import { useEffect, useState } from "react"
+import { Agora360Wordmark } from "@/components/logo"
 
 export function LandingNavbar() {
   const { setTheme, resolvedTheme } = useTheme()
@@ -17,10 +18,8 @@ export function LandingNavbar() {
         {/* Logo */}
         <Link href="/" className="flex items-center gap-2.5 rounded-sm">
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src="/agora.svg" alt="" width={28} height={28} className="shrink-0" />
-          <span className="font-serif font-semibold text-xl tracking-tight text-foreground">
-            Agora360
-          </span>
+          <img src="/agora.svg" alt="" width={30} height={30} className="shrink-0 logo-mark" />
+          <Agora360Wordmark className="text-lg" />
         </Link>
 
         {/* Actions */}
@@ -47,7 +46,7 @@ export function LandingNavbar() {
             href="/register"
             className="btn-primary text-sm font-semibold px-4 py-2 rounded-md"
           >
-            Rejoindre
+            Créer un compte
           </Link>
         </nav>
       </div>

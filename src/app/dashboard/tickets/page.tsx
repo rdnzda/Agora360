@@ -110,7 +110,7 @@ export default async function TicketsPage() {
                     <TableCell>
                       <Link href={`/dashboard/tickets/${ticket.id}`}>
                         <Button variant="ghost" size="sm" aria-label={`Voir le ticket : ${ticket.title}`}>
-                          Voir →
+                          Voir
                         </Button>
                       </Link>
                     </TableCell>

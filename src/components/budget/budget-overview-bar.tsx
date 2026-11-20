@@ -12,15 +12,15 @@ export function BudgetOverviewBar({ envelope, allocated, remaining }: Props) {
   const allocatedPct = envelope > 0 ? Math.min((allocated / envelope) * 100, 100) : 0
 
   return (
-    <div className="bg-card rounded-sm border border-border p-5 space-y-3">
+    <div className="bg-card rounded-xl border border-border p-5 space-y-3">
       <div className="flex items-center justify-between">
         <h2 className="text-sm font-semibold text-foreground">Enveloppe budgétaire</h2>
-        <span className="tabular text-lg font-semibold text-foreground">{formatEur(envelope)}</span>
+        <span className="tabular text-lg font-extrabold text-foreground">{formatEur(envelope)}</span>
       </div>
 
-      <div className="h-2.5 bg-muted rounded-sm overflow-hidden">
+      <div className="h-2.5 bg-muted rounded-full overflow-hidden">
         <div
-          className="h-full bg-primary transition-all"
+          className="h-full bg-primary rounded-full transition-all"
           style={{ width: `${allocatedPct}%` }}
         />
       </div>

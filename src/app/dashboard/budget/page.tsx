@@ -108,7 +108,7 @@ export default async function BudgetPage() {
                   <p className="text-xs text-muted-foreground mt-0.5">{project.category} — {formatEur(project.amount)}</p>
                 </div>
                 <Link href={`/dashboard/budget/${project.id}`}>
-                  <Button variant="ghost" size="sm">Voir →</Button>
+                  <Button variant="ghost" size="sm">Voir le projet</Button>
                 </Link>
               </div>
 

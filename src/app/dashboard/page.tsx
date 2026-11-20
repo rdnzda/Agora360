@@ -56,16 +56,21 @@ export default async function DashboardPage() {
     <div className="p-4 md:p-8 lg:p-10 space-y-8 max-w-6xl">
       {/* ── Welcome header ── */}
       <FadeIn>
-        <div className="pt-2 pb-5 border-b border-border">
+        <div className="pt-2 pb-6 border-b border-border flex flex-col lg:flex-row lg:items-end lg:justify-between gap-5">
+          <div>
           <p className="text-sm text-muted-foreground first-letter:uppercase">{today}</p>
-          <h1 className="text-3xl md:text-4xl font-semibold tracking-tight mt-1 text-foreground">
+          <h1 className="text-3xl md:text-4xl font-extrabold tracking-tight mt-1 text-foreground">
             Bonjour, {firstName}
           </h1>
           <p className="text-base text-muted-foreground mt-2">
             {isAdmin
-              ? "Vue administrateur — toutes les statistiques de la plateforme."
+              ? "Vous voyez les statistiques de toute la plateforme."
               : "Bienvenue sur votre espace de gouvernance participative."}
           </p>
+          </div>
+          <nav aria-label="Actions rapides">
+            <QuickActions isAdmin={isAdmin} />
+          </nav>
         </div>
       </FadeIn>
 
@@ -86,7 +91,7 @@ export default async function DashboardPage() {
             label="Baromètre"
             value={barometreCount}
             sublabel={isAdmin ? "réponses totales" : "réponses"}
-            variant="teal"
+            variant="amber"
           />
         </StaggerItem>
         <StaggerItem>
@@ -95,7 +100,7 @@ export default async function DashboardPage() {
             label="Budget voté"
             value={budgetVoteCount}
             sublabel={isAdmin ? "votes au total" : "votes"}
-            variant="amber"
+            variant="teal"
           />
         </StaggerItem>
         <StaggerItem>
@@ -109,19 +114,9 @@ export default async function DashboardPage() {
         </StaggerItem>
       </StaggerList>
 
-      {/* ── Quick actions ── */}
-      <FadeIn delay={0.15}>
-        <section className="bg-card rounded-sm border border-border p-5">
-          <div className="flex items-center gap-2 mb-4">
-            <h2 className="text-xl font-semibold text-foreground">Actions rapides</h2>
-          </div>
-          <QuickActions isAdmin={isAdmin} />
-        </section>
-      </FadeIn>
-
       {/* ── Admin stats ── */}
       {isAdmin && (
-        <FadeIn delay={0.2}>
+        <div>
           <AdminStats
             totalUsers={totalUsers as number}
             statusCounts={{
@@ -131,25 +126,26 @@ export default async function DashboardPage() {
               CLOSED:      closedCount,
             }}
           />
-        </FadeIn>
+        </div>
       )}
 
       {/* ── Recent tickets ── */}
-      <FadeIn delay={0.25}>
-        <section className="bg-card rounded-sm border border-border p-5">
+      <div>
+        <section className="bg-card rounded-xl border border-border p-5">
           <div className="flex items-center justify-between mb-4">
             <div className="flex items-center gap-2">
-              <h2 className="text-xl font-semibold text-foreground">
+              <div className="w-1 h-5 rounded-full bg-primary" aria-hidden="true" />
+              <h2 className="text-base font-bold text-foreground">
                 {isAdmin ? "Derniers tickets" : "Mes derniers tickets"}
               </h2>
             </div>
             <a href="/dashboard/tickets" className="text-sm text-primary font-semibold underline underline-offset-4 hover:no-underline">
-              Voir tout →
+              Voir tous les tickets
             </a>
           </div>
           <RecentTickets tickets={serializedTickets} isAdmin={isAdmin} />
         </section>
-      </FadeIn>
+      </div>
     </div>
   )
 }

@@ -7,11 +7,12 @@ import { motion } from "framer-motion"
 import { toast } from "sonner"
 import Link from "next/link"
 import { AuthAside } from "@/components/auth/auth-aside"
+import { Agora360Wordmark } from "@/components/logo"
 
 // ── Champ de saisie ───────────────────────────────────────────────────────────
 
 const FieldBox = ({ children }: { children: React.ReactNode }) => (
-  <div className="rounded-md border border-input bg-card transition-colors focus-within:border-primary focus-within:ring-2 focus-within:ring-primary/25">
+  <div className="rounded-lg border border-input bg-card transition-colors focus-within:border-primary focus-within:ring-3 focus-within:ring-primary/20">
     {children}
   </div>
 )
@@ -60,12 +61,12 @@ export default function RegisterPage() {
         >
           {/* Branding */}
           <div>
-            <Link href="/" className="flex items-center gap-2.5 mb-10 w-fit rounded-sm">
+            <Link href="/" className="flex items-center gap-2.5 mb-8 w-fit rounded-md">
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src="/agora.svg" alt="" width={32} height={32} className="shrink-0" />
-              <span className="font-serif font-semibold text-xl tracking-tight text-foreground">Agora360</span>
+              <img src="/agora.svg" alt="" width={36} height={36} className="shrink-0 logo-mark" />
+              <Agora360Wordmark className="text-xl" />
             </Link>
-            <h1 className="text-4xl md:text-5xl font-semibold text-foreground leading-tight tracking-tight">
+            <h1 className="text-3xl md:text-4xl font-extrabold text-foreground leading-tight tracking-tight">
               Rejoignez-nous
             </h1>
             <p className="text-muted-foreground mt-3 text-base">
@@ -149,7 +150,7 @@ export default function RegisterPage() {
             <button
               type="submit"
               disabled={loading}
-              className="btn-primary w-full rounded-md py-3 text-base font-semibold disabled:opacity-60 cursor-pointer"
+              className="btn-primary w-full rounded-lg py-3 text-base font-semibold disabled:opacity-60 cursor-pointer"
             >
               {loading ? "Création en cours…" : "Créer mon compte"}
             </button>
@@ -166,7 +167,7 @@ export default function RegisterPage() {
           <div className="relative">
             <button
               disabled
-              className="w-full rounded-md py-3 text-sm font-semibold border border-dashed border-input bg-transparent text-muted-foreground cursor-not-allowed flex items-center justify-center gap-2.5"
+              className="w-full rounded-lg py-3 text-sm font-semibold border border-dashed border-input bg-transparent text-muted-foreground cursor-not-allowed flex items-center justify-center gap-2.5"
             >
               <svg className="w-4 h-4 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                 <rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/><line x1="12" y1="12" x2="12" y2="16"/><line x1="10" y1="14" x2="14" y2="14"/>
@@ -188,7 +189,7 @@ export default function RegisterPage() {
           {/* Security badge */}
           <div className="flex items-center justify-center gap-2 text-xs text-muted-foreground">
             <Shield className="w-3 h-3" />
-            Inscription sécurisée — données chiffrées
+            Inscription sécurisée, données chiffrées
           </div>
         </motion.div>
       </section>

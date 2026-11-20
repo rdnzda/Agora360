@@ -8,9 +8,8 @@
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --font-sans: var(--font-sans);
-  --font-serif: var(--font-serif);
   --font-mono: ui-monospace, SFMono-Regular, Menlo, monospace;
-  --font-heading: var(--font-serif);
+  --font-heading: var(--font-sans);
   --color-vote-for: var(--vote-for);
   --color-vote-against: var(--vote-against);
   --color-accent-warm: var(--accent-warm);
@@ -52,112 +51,107 @@
   --radius-4xl: calc(var(--radius) * 2.6);
 }
 
-/*
-  Identité « Registre » — sobre et institutionnelle.
-  Une seule couleur forte (vert civique), des neutres froids, des filets
-  plutôt que des ombres, des rayons courts. Titres en Source Serif 4,
-  interface en Public Sans.
-*/
+/* Identité Agora360 — indigo profond + teal, fond clair froid. */
 :root {
-  /* ── Fonds ── */
-  --background: oklch(0.975 0.002 240);
-  --foreground: oklch(0.21 0.014 250);
+  /* ── Backgrounds ── */
+  --background: oklch(0.966 0.007 270);
+  --foreground: oklch(0.15 0.03 268);
 
-  /* ── Surfaces ── */
+  /* ── Cards / Popovers ── */
   --card: oklch(1 0 0);
-  --card-foreground: oklch(0.21 0.014 250);
+  --card-foreground: oklch(0.15 0.03 268);
   --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.21 0.014 250);
+  --popover-foreground: oklch(0.15 0.03 268);
 
-  /* ── Primaire — vert civique profond ── */
-  --primary: oklch(0.43 0.085 163);
+  /* ── Primary — violet profond, moins saturé ── */
+  --primary: oklch(0.42 0.19 270);
   --primary-foreground: oklch(0.99 0 0);
 
-  /* ── Secondaire ── */
-  --secondary: oklch(0.945 0.006 240);
-  --secondary-foreground: oklch(0.25 0.014 250);
+  /* ── Secondary ── */
+  --secondary: oklch(0.93 0.030 265);
+  --secondary-foreground: oklch(0.20 0.04 268);
 
   /* ── Muted ── */
-  --muted: oklch(0.948 0.004 240);
-  --muted-foreground: oklch(0.47 0.012 250);
+  --muted: oklch(0.946 0.008 265);
+  --muted-foreground: oklch(0.52 0.02 265);
 
-  /* ── Accent — déclinaison du vert, utilisé pour les liens secondaires ── */
-  --accent: oklch(0.47 0.08 163);
-  --accent-foreground: oklch(0.99 0 0);
+  /* ── Accent — teal atténué ── */
+  --accent: oklch(0.65 0.16 195);
+  --accent-foreground: oklch(0.10 0.02 200);
 
-  /* ── Accent chaud — ocre, réservé à la gamification ── */
-  --accent-warm: oklch(0.62 0.12 70);
+  /* ── Accent warm — amber pour gamification ── */
+  --accent-warm: oklch(0.70 0.17 47);
   --accent-warm-foreground: oklch(0.99 0 0);
 
-  /* ── Destructive — brique ── */
-  --destructive: oklch(0.52 0.17 28);
+  /* ── Destructive ── */
+  --destructive: oklch(0.577 0.245 27.325);
 
-  /* ── Filets / champs ── */
-  --border: oklch(0.885 0.006 240);
-  --input: oklch(0.80 0.008 240);
-  --ring: oklch(0.43 0.085 163);
+  /* ── Borders / Inputs ── */
+  --border: oklch(0.90 0.010 265);
+  --input: oklch(0.83 0.014 265);
+  --ring: oklch(0.42 0.19 270);
 
-  /* ── Graphiques ── */
-  --chart-1: oklch(0.43 0.085 163);
-  --chart-2: oklch(0.50 0.04 245);
-  --chart-3: oklch(0.66 0.12 70);
-  --chart-4: oklch(0.52 0.17 28);
-  --chart-5: oklch(0.70 0.01 240);
+  /* ── Charts ── */
+  --chart-1: oklch(0.50 0.18 270);
+  --chart-2: oklch(0.65 0.16 195);
+  --chart-3: oklch(0.70 0.17 47);
+  --chart-4: oklch(0.58 0.18 330);
+  --chart-5: oklch(0.52 0.14 160);
 
   /* ── Vote ── */
-  --vote-for: oklch(0.43 0.085 163);
-  --vote-against: oklch(0.52 0.17 28);
+  --vote-for: oklch(0.50 0.11 175);
+  --vote-against: oklch(0.55 0.20 25);
 
-  /* ── Rayon — court ── */
-  --radius: 0.25rem;
+  /* ── Radius ── */
+  --radius: 0.5rem;
 
-  /* ── Barre latérale — claire, filet à droite ── */
-  --sidebar: oklch(0.99 0.001 240);
-  --sidebar-foreground: oklch(0.25 0.014 250);
-  --sidebar-primary: oklch(0.43 0.085 163);
-  --sidebar-primary-foreground: oklch(0.99 0 0);
-  --sidebar-accent: oklch(0.95 0.012 163);
-  --sidebar-accent-foreground: oklch(0.30 0.06 163);
-  --sidebar-border: oklch(0.885 0.006 240);
-  --sidebar-ring: oklch(0.43 0.085 163);
+  /* ── Sidebar — toujours sombre ── */
+  --sidebar: oklch(0.12 0.022 275);
+  --sidebar-foreground: oklch(0.92 0.01 260);
+  --sidebar-primary: oklch(0.65 0.16 195);
+  --sidebar-primary-foreground: oklch(0.10 0.02 200);
+  --sidebar-accent: oklch(0.20 0.04 275);
+  --sidebar-accent-foreground: oklch(0.92 0.01 260);
+  --sidebar-border: oklch(1 0 0 / 7%);
+  --sidebar-ring: oklch(0.65 0.16 195);
 }
 
 .dark {
-  --background: oklch(0.175 0.006 250);
-  --foreground: oklch(0.93 0.004 240);
-  --card: oklch(0.21 0.007 250);
-  --card-foreground: oklch(0.93 0.004 240);
-  --popover: oklch(0.21 0.007 250);
-  --popover-foreground: oklch(0.93 0.004 240);
-  --primary: oklch(0.74 0.10 163);
-  --primary-foreground: oklch(0.17 0.02 163);
-  --secondary: oklch(0.255 0.007 250);
-  --secondary-foreground: oklch(0.93 0.004 240);
-  --muted: oklch(0.245 0.007 250);
-  --muted-foreground: oklch(0.70 0.008 240);
-  --accent: oklch(0.74 0.10 163);
-  --accent-foreground: oklch(0.17 0.02 163);
-  --accent-warm: oklch(0.76 0.12 75);
-  --accent-warm-foreground: oklch(0.17 0.02 75);
-  --destructive: oklch(0.70 0.15 28);
-  --border: oklch(1 0 0 / 11%);
-  --input: oklch(1 0 0 / 18%);
-  --ring: oklch(0.74 0.10 163);
-  --chart-1: oklch(0.74 0.10 163);
-  --chart-2: oklch(0.70 0.04 245);
-  --chart-3: oklch(0.76 0.12 75);
-  --chart-4: oklch(0.70 0.15 28);
-  --chart-5: oklch(0.55 0.01 240);
-  --vote-for: oklch(0.74 0.10 163);
-  --vote-against: oklch(0.70 0.15 28);
-  --sidebar: oklch(0.195 0.006 250);
-  --sidebar-foreground: oklch(0.90 0.004 240);
-  --sidebar-primary: oklch(0.74 0.10 163);
-  --sidebar-primary-foreground: oklch(0.17 0.02 163);
-  --sidebar-accent: oklch(0.26 0.02 163);
-  --sidebar-accent-foreground: oklch(0.90 0.04 163);
-  --sidebar-border: oklch(1 0 0 / 10%);
-  --sidebar-ring: oklch(0.74 0.10 163);
+  --background: oklch(0.11 0.022 278);
+  --foreground: oklch(0.95 0.01 260);
+  --card: oklch(0.16 0.025 278);
+  --card-foreground: oklch(0.95 0.01 260);
+  --popover: oklch(0.16 0.025 278);
+  --popover-foreground: oklch(0.95 0.01 260);
+  --primary: oklch(0.65 0.18 270);
+  --primary-foreground: oklch(0.99 0 0);
+  --secondary: oklch(0.22 0.035 278);
+  --secondary-foreground: oklch(0.95 0.01 260);
+  --muted: oklch(0.22 0.025 278);
+  --muted-foreground: oklch(0.62 0.018 265);
+  --accent: oklch(0.65 0.16 195);
+  --accent-foreground: oklch(0.10 0.02 200);
+  --accent-warm: oklch(0.70 0.17 47);
+  --accent-warm-foreground: oklch(0.99 0 0);
+  --destructive: oklch(0.704 0.191 22.216);
+  --border: oklch(1 0 0 / 10%);
+  --input: oklch(1 0 0 / 12%);
+  --ring: oklch(0.65 0.18 270);
+  --chart-1: oklch(0.65 0.18 270);
+  --chart-2: oklch(0.65 0.16 195);
+  --chart-3: oklch(0.70 0.17 47);
+  --chart-4: oklch(0.58 0.18 330);
+  --chart-5: oklch(0.52 0.14 160);
+  --vote-for: oklch(0.74 0.12 175);
+  --vote-against: oklch(0.70 0.17 25);
+  --sidebar: oklch(0.09 0.020 278);
+  --sidebar-foreground: oklch(0.92 0.01 260);
+  --sidebar-primary: oklch(0.65 0.16 195);
+  --sidebar-primary-foreground: oklch(0.10 0.02 200);
+  --sidebar-accent: oklch(0.18 0.035 278);
+  --sidebar-accent-foreground: oklch(0.92 0.01 260);
+  --sidebar-border: oklch(1 0 0 / 8%);
+  --sidebar-ring: oklch(0.65 0.16 195);
 }
 
 @layer base {
@@ -171,13 +165,8 @@
     @apply font-sans;
     font-feature-settings: "tnum" 0;
   }
-  h1, h2 {
-    font-family: var(--font-serif), Georgia, "Times New Roman", serif;
-    letter-spacing: -0.01em;
-    font-optical-sizing: auto;
-  }
   ::selection {
-    background: oklch(0.43 0.085 163 / 0.18);
+    background: oklch(0.42 0.19 270 / 0.18);
   }
   :focus-visible {
     outline: 2px solid var(--ring);
@@ -201,6 +190,16 @@
     opacity: 1;
     transform: translateY(0px);
   }
+}
+
+/* Unique moment animé de l'accueil : la demande progresse */
+@keyframes tracker-fill {
+  from { height: 0; }
+  to   { height: calc(50% - 0.75rem); }
+}
+@keyframes tracker-dot {
+  from { transform: scale(0.6); opacity: 0.3; }
+  to   { transform: scale(1); opacity: 1; }
 }
 
 @keyframes count-up {
@@ -248,7 +247,7 @@
   /* ── Les anciens dégradés de texte deviennent une couleur pleine ── */
   .text-gradient-primary { color: var(--primary); }
   .text-gradient-warm    { color: var(--accent-warm); }
-  .text-gradient-teal    { color: var(--primary); }
+  .text-gradient-teal    { color: var(--accent); }
 
   /* ── Survol de carte — changement de filet, pas de lévitation ── */
   .card-hover {
@@ -287,14 +286,51 @@
     border-color: var(--foreground);
   }
 
-  /* ── Panneau institutionnel (vert plein ; plus sourd en mode sombre) ── */
+  /* ── Panneau de marque (indigo plein ; plus sourd en mode sombre) ── */
   .panel-civic {
-    background: var(--primary);
-    color: var(--primary-foreground);
+    background: oklch(0.42 0.19 270);
+    color: oklch(0.99 0 0);
   }
   .dark .panel-civic {
-    background: oklch(0.29 0.05 163);
-    color: oklch(0.95 0.01 163);
+    background: oklch(0.30 0.12 272);
+    color: oklch(0.97 0.01 270);
+  }
+
+  /* ── Aperçu du suivi de ticket ── */
+  .tracker-fill {
+    height: calc(50% - 0.75rem);
+    animation: tracker-fill 0.9s 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+  }
+  .tracker-dot {
+    animation: tracker-dot 0.35s ease-out both;
+  }
+
+  /* ── Couleurs de module (petites touches : icônes, pastilles) ── */
+  .tone-gps       { --tone: var(--primary); }
+  .tone-budget    { --tone: oklch(0.52 0.12 200); }
+  .tone-parlement { --tone: oklch(0.50 0.20 315); }
+  .tone-barometre { --tone: oklch(0.57 0.16 50); }
+  .tone-profil    { --tone: oklch(0.55 0.20 15); }
+  .tone-neutral   { --tone: currentColor; }
+  .tone-faq       { --tone: oklch(0.52 0.13 150); }
+  .tone-boutique  { --tone: oklch(0.58 0.13 90); }
+  .on-dark .tone-faq      { --tone: oklch(0.74 0.15 150); }
+  .on-dark .tone-boutique { --tone: oklch(0.80 0.15 90); }
+  .dark .tone-budget,    .on-dark .tone-budget    { --tone: oklch(0.76 0.12 195); }
+  .dark .tone-parlement, .on-dark .tone-parlement { --tone: oklch(0.75 0.15 320); }
+  .dark .tone-barometre, .on-dark .tone-barometre { --tone: oklch(0.78 0.14 60); }
+  .dark .tone-profil,    .on-dark .tone-profil    { --tone: oklch(0.75 0.15 15); }
+  .on-dark .tone-gps { --tone: oklch(0.74 0.15 275); }
+  .tone-text { color: var(--tone); }
+  .tone-tile {
+    color: var(--tone);
+    background: color-mix(in oklch, var(--tone) 11%, transparent);
+  }
+
+  /* ── Logo : version éclaircie sur fond sombre ── */
+  .dark .logo-mark,
+  .logo-mark-on-dark {
+    filter: brightness(2.1) saturate(1.15);
   }
 
   /* ── Filet de rubrique (titre de section) ── */
@@ -308,6 +344,10 @@
 ══════════════════════════════════════════════ */
 
 @media (prefers-reduced-motion: reduce) {
+  .tracker-fill,
+  .tracker-dot {
+    animation: none;
+  }
   .animate-element,
   .animate-testimonial {
     animation: none;

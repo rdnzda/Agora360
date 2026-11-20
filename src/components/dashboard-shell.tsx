@@ -4,7 +4,7 @@ import { useState } from "react"
 import { Menu, X } from "lucide-react"
 import { motion, AnimatePresence } from "framer-motion"
 import { Sidebar } from "./sidebar"
-import { Agora360Icon } from "@/components/logo"
+import { Agora360Wordmark } from "@/components/logo"
 
 type Props = {
   userName: string
@@ -70,8 +70,8 @@ export function DashboardShell({ userName, userRole, userImage, children }: Prop
           </button>
           <div className="flex items-center gap-2">
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src="/agora.svg" alt="" width={24} height={24} className="shrink-0" />
-            <span className="font-serif text-lg font-semibold tracking-tight text-sidebar-foreground">Agora360</span>
+            <img src="/agora.svg" alt="" width={26} height={26} className="shrink-0 logo-mark-on-dark" />
+            <Agora360Wordmark onDark className="text-base" />
           </div>
           <div className="ml-auto flex items-center gap-2">
             <button

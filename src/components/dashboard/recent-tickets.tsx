@@ -19,8 +19,10 @@ type Props = {
 export function RecentTickets({ tickets, isAdmin }: Props) {
   if (tickets.length === 0) {
     return (
-      <p className="text-sm text-muted-foreground py-6 text-center">
-        Aucun ticket pour l&apos;instant.
+      <p className="text-sm text-muted-foreground py-6">
+        {isAdmin
+          ? "Aucun ticket n'a encore été soumis. Les nouvelles demandes apparaîtront ici."
+          : "Vous n'avez pas encore de ticket. Signalez une démarche avec « Nouveau ticket » ci-dessus."}
       </p>
     )
   }
@@ -45,7 +47,7 @@ export function RecentTickets({ tickets, isAdmin }: Props) {
             <TicketStatusBadge status={ticket.status} />
             <Link href={`/dashboard/tickets/${ticket.id}`}>
               <Button variant="ghost" size="sm" className="text-xs" aria-label={`Voir le ticket : ${ticket.title}`}>
-                Voir →
+                Voir
               </Button>
             </Link>
           </div>

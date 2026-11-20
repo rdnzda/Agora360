@@ -36,7 +36,7 @@ export function VoteBar({ forCount, againstCount }: Props) {
   return (
     <div className="space-y-2">
       {/* Bar */}
-      <div className="flex h-2.5 rounded-sm overflow-hidden bg-muted gap-px">
+      <div className="flex h-2.5 rounded-full overflow-hidden bg-muted gap-0.5">
         {total > 0 ? (
           <>
             <div
