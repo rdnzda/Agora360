@@ -6,43 +6,13 @@ import { Eye, EyeOff, Shield } from "lucide-react"
 import { motion } from "framer-motion"
 import { toast } from "sonner"
 import Link from "next/link"
+import { AuthAside } from "@/components/auth/auth-aside"
 
-// ── Testimonials ──────────────────────────────────────────────────────────────
+// ── Champ de saisie ───────────────────────────────────────────────────────────
 
-const testimonials = [
-  {
-    avatarSrc: "https://randomuser.me/api/portraits/women/68.jpg",
-    name: "Chloé Martin",
-    handle: "@chloe.m",
-    text: "Inscription en 2 minutes, ticket résolu en 24h. La plateforme est vraiment bien pensée.",
-  },
-  {
-    avatarSrc: "https://randomuser.me/api/portraits/men/45.jpg",
-    name: "Thomas Lefebvre",
-    handle: "@thomas.lef",
-    text: "Enfin un outil qui centralise toutes mes démarches administratives au même endroit.",
-  },
-]
-
-// ── Glass input ───────────────────────────────────────────────────────────────
-
-const GlassInput = ({ children }: { children: React.ReactNode }) => (
-  <div className="rounded-xl border border-border bg-foreground/5 backdrop-blur-sm transition-colors focus-within:border-primary/60 focus-within:bg-primary/5">
+const FieldBox = ({ children }: { children: React.ReactNode }) => (
+  <div className="rounded-md border border-input bg-card transition-colors focus-within:border-primary focus-within:ring-2 focus-within:ring-primary/25">
     {children}
-  </div>
-)
-
-// ── Testimonial card ──────────────────────────────────────────────────────────
-
-const TestimonialCard = ({ t, delay }: { t: typeof testimonials[0]; delay: string }) => (
-  <div className={`animate-testimonial ${delay} flex items-start gap-3 rounded-2xl glass border border-white/15 p-4 w-60 shrink-0`}>
-    {/* eslint-disable-next-line @next/next/no-img-element */}
-    <img src={t.avatarSrc} className="h-10 w-10 rounded-xl object-cover shrink-0" alt={t.name} />
-    <div className="text-sm leading-snug">
-      <p className="font-semibold text-white">{t.name}</p>
-      <p className="text-white/50 text-xs">{t.handle}</p>
-      <p className="mt-1.5 text-white/80 text-xs leading-relaxed">{t.text}</p>
-    </div>
   </div>
 )
 
@@ -81,7 +51,7 @@ export default function RegisterPage() {
     <div className="h-[100dvh] flex flex-col md:flex-row overflow-hidden">
 
       {/* ── Left — form ── */}
-      <section className="flex-1 flex items-start md:items-center justify-center pt-16 md:pt-0 p-8 bg-background">
+      <section className="flex-1 flex items-start md:items-center justify-center pt-12 md:pt-0 px-5 py-8 sm:p-8 bg-background overflow-y-auto">
         <motion.div
           className="w-full max-w-md flex flex-col gap-6"
           initial={{ opacity: 0, y: 20 }}
@@ -90,15 +60,15 @@ export default function RegisterPage() {
         >
           {/* Branding */}
           <div>
-            <Link href="/" className="flex items-center gap-3 mb-4 w-fit hover:opacity-80 transition-opacity">
+            <Link href="/" className="flex items-center gap-2.5 mb-10 w-fit rounded-sm">
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src="/agora.svg" alt="Agora360" width={40} height={40} className="shrink-0" />
-              <span className="font-extrabold text-xl tracking-tight text-gradient-primary">Agora360</span>
+              <img src="/agora.svg" alt="" width={32} height={32} className="shrink-0" />
+              <span className="font-serif font-semibold text-xl tracking-tight text-foreground">Agora360</span>
             </Link>
-            <h1 className="text-3xl md:text-4xl font-extrabold text-foreground leading-tight">
-              Rejoignez-nous 🎓
+            <h1 className="text-4xl md:text-5xl font-semibold text-foreground leading-tight tracking-tight">
+              Rejoignez-nous
             </h1>
-            <p className="text-muted-foreground mt-2 text-sm">
+            <p className="text-muted-foreground mt-3 text-base">
               Créez votre compte et participez à la gouvernance de votre établissement
             </p>
           </div>
@@ -106,10 +76,10 @@ export default function RegisterPage() {
           {/* Form */}
           <form className="space-y-4" onSubmit={handleSubmit}>
             <div className="space-y-1.5">
-              <label htmlFor="register-name" className="text-sm font-medium text-foreground/80">
+              <label htmlFor="register-name" className="text-sm font-semibold text-foreground">
                 Nom complet
               </label>
-              <GlassInput>
+              <FieldBox>
                 <input
                   id="register-name"
                   name="name"
@@ -119,16 +89,16 @@ export default function RegisterPage() {
                   value={name}
                   onChange={(e) => setName(e.target.value)}
                   required
-                  className="w-full bg-transparent text-sm px-4 py-3.5 rounded-xl focus:outline-none placeholder:text-muted-foreground/50"
+                  className="w-full bg-transparent text-sm px-3.5 py-3 rounded-md focus:outline-none placeholder:text-muted-foreground/70"
                 />
-              </GlassInput>
+              </FieldBox>
             </div>
 
             <div className="space-y-1.5">
-              <label htmlFor="register-email" className="text-sm font-medium text-foreground/80">
+              <label htmlFor="register-email" className="text-sm font-semibold text-foreground">
                 Email universitaire
               </label>
-              <GlassInput>
+              <FieldBox>
                 <input
                   id="register-email"
                   name="email"
@@ -138,16 +108,16 @@ export default function RegisterPage() {
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   required
-                  className="w-full bg-transparent text-sm px-4 py-3.5 rounded-xl focus:outline-none placeholder:text-muted-foreground/50"
+                  className="w-full bg-transparent text-sm px-3.5 py-3 rounded-md focus:outline-none placeholder:text-muted-foreground/70"
                 />
-              </GlassInput>
+              </FieldBox>
             </div>
 
             <div className="space-y-1.5">
-              <label htmlFor="register-password" className="text-sm font-medium text-foreground/80">
+              <label htmlFor="register-password" className="text-sm font-semibold text-foreground">
                 Mot de passe
               </label>
-              <GlassInput>
+              <FieldBox>
                 <div className="relative">
                   <input
                     id="register-password"
@@ -159,7 +129,7 @@ export default function RegisterPage() {
                     onChange={(e) => setPassword(e.target.value)}
                     minLength={8}
                     required
-                    className="w-full bg-transparent text-sm px-4 py-3.5 pr-12 rounded-xl focus:outline-none placeholder:text-muted-foreground/50"
+                    className="w-full bg-transparent text-sm px-3.5 py-3 pr-12 rounded-md focus:outline-none placeholder:text-muted-foreground/70"
                   />
                   <button
                     type="button"
@@ -173,13 +143,13 @@ export default function RegisterPage() {
                     }
                   </button>
                 </div>
-              </GlassInput>
+              </FieldBox>
             </div>
 
             <button
               type="submit"
               disabled={loading}
-              className="btn-primary w-full rounded-xl py-3.5 text-sm font-bold text-white disabled:opacity-60 cursor-pointer"
+              className="btn-primary w-full rounded-md py-3 text-base font-semibold disabled:opacity-60 cursor-pointer"
             >
               {loading ? "Création en cours…" : "Créer mon compte"}
             </button>
@@ -188,7 +158,7 @@ export default function RegisterPage() {
           {/* Séparateur */}
           <div className="flex items-center gap-3">
             <div className="flex-1 h-px bg-border" />
-            <span className="text-xs text-muted-foreground/50">ou</span>
+            <span className="text-xs text-muted-foreground">ou</span>
             <div className="flex-1 h-px bg-border" />
           </div>
 
@@ -196,65 +166,34 @@ export default function RegisterPage() {
           <div className="relative">
             <button
               disabled
-              className="w-full rounded-xl py-3.5 text-sm font-semibold border border-border bg-muted/40 text-muted-foreground/50 cursor-not-allowed flex items-center justify-center gap-2.5"
+              className="w-full rounded-md py-3 text-sm font-semibold border border-dashed border-input bg-transparent text-muted-foreground cursor-not-allowed flex items-center justify-center gap-2.5"
             >
               <svg className="w-4 h-4 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                 <rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/><line x1="12" y1="12" x2="12" y2="16"/><line x1="10" y1="14" x2="14" y2="14"/>
               </svg>
               S'inscrire avec mon compte ENT
             </button>
-            <span className="absolute -top-2 right-3 px-1.5 py-0.5 rounded-md bg-muted border border-border text-[10px] font-medium text-muted-foreground/60">
+            <span className="absolute -top-2 right-3 px-1.5 py-0.5 rounded-sm bg-background border border-border text-[11px] font-medium text-muted-foreground">
               Bientôt disponible
             </span>
           </div>
 
           <p className="text-center text-sm text-muted-foreground">
             Déjà un compte ?{" "}
-            <Link href="/login" className="text-primary font-semibold hover:text-primary/80 transition-colors">
+            <Link href="/login" className="text-primary font-semibold underline underline-offset-4 hover:no-underline">
               Se connecter
             </Link>
           </p>
 
           {/* Security badge */}
-          <div className="flex items-center justify-center gap-2 text-xs text-muted-foreground/50">
+          <div className="flex items-center justify-center gap-2 text-xs text-muted-foreground">
             <Shield className="w-3 h-3" />
             Inscription sécurisée — données chiffrées
           </div>
         </motion.div>
       </section>
 
-      {/* ── Right — hero + testimonials ── */}
-      <motion.section
-        initial={{ opacity: 0, x: 40 }}
-        animate={{ opacity: 1, x: 0 }}
-        transition={{ duration: 0.5, ease: [0.25, 0.46, 0.45, 0.94] }}
-        className="hidden md:block flex-1 relative p-4"
-      >
-        {/* Hero image */}
-        <div
-          className="absolute inset-4 rounded-3xl bg-cover bg-center"
-          style={{
-            backgroundImage:
-              "url(https://images.unsplash.com/photo-1541339907198-e08756dedf3f?w=2160&q=80)",
-          }}
-        >
-          {/* Rich gradient overlay */}
-          <div className="absolute inset-0 rounded-3xl bg-gradient-to-br from-primary/60 via-black/30 to-black/70" />
-          {/* Top label */}
-          <div className="absolute top-6 left-6 flex items-center gap-2 glass rounded-xl px-3 py-2">
-            <div className="w-2 h-2 rounded-full bg-green-400 animate-pulse" />
-            <span className="text-white/90 text-xs font-medium">Rejoignez 2 400+ étudiants</span>
-          </div>
-        </div>
-
-        {/* Testimonial cards */}
-        <div className="absolute bottom-10 left-1/2 -translate-x-1/2 flex gap-3 w-full px-8 justify-center">
-          <TestimonialCard t={testimonials[0]} delay="animate-delay-1000" />
-          <div className="hidden xl:flex">
-            <TestimonialCard t={testimonials[1]} delay="animate-delay-1200" />
-          </div>
-        </div>
-      </motion.section>
+      <AuthAside />
 
     </div>
   )

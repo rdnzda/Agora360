@@ -30,7 +30,7 @@ export function BadgeCard({ name, description, icon, earned, earnedAt, delay = 0
         <div className={cn(
           "w-14 h-14 rounded-2xl flex items-center justify-center",
           earned
-            ? "bg-gradient-to-br from-primary/20 to-accent/10"
+            ? "bg-primary/10"
             : "bg-muted"
         )}>
           {icon}

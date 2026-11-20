@@ -21,7 +21,7 @@ export function DashboardShell({ userName, userRole, userImage, children }: Prop
       {/* Skip link */}
       <a
         href="#main-content"
-        className="sr-only focus:not-sr-only focus:fixed focus:top-2 focus:left-2 focus:z-50 focus:rounded-xl focus:bg-primary focus:px-4 focus:py-2 focus:text-sm focus:font-medium focus:text-primary-foreground"
+        className="sr-only focus:not-sr-only focus:fixed focus:top-2 focus:left-2 focus:z-50 focus:rounded-md focus:bg-primary focus:px-4 focus:py-2 focus:text-sm focus:font-medium focus:text-primary-foreground"
       >
         Aller au contenu principal
       </a>
@@ -41,7 +41,7 @@ export function DashboardShell({ userName, userRole, userImage, children }: Prop
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               transition={{ duration: 0.2 }}
-              className="absolute inset-0 bg-foreground/30 backdrop-blur-sm"
+              className="absolute inset-0 bg-foreground/40"
               onClick={() => setOpen(false)}
             />
             {/* Drawer */}
@@ -53,10 +53,6 @@ export function DashboardShell({ userName, userRole, userImage, children }: Prop
               className="absolute left-0 top-0 h-full z-50 flex"
             >
               <Sidebar userName={userName} userRole={userRole} userImage={userImage} variant="full" onNavigate={() => setOpen(false)} />
-              {/* Drag handle hint */}
-              <div className="flex items-center px-1" aria-hidden="true">
-                <div className="w-1 h-10 rounded-full bg-sidebar-border/60" />
-              </div>
             </motion.div>
           </div>
         )}
@@ -67,20 +63,20 @@ export function DashboardShell({ userName, userRole, userImage, children }: Prop
         <header className="flex md:hidden items-center gap-3 px-4 h-14 border-b border-sidebar-border bg-sidebar shrink-0">
           <button
             onClick={() => setOpen(true)}
-            className="p-1.5 rounded-lg text-sidebar-foreground/60 hover:bg-sidebar-accent transition-colors cursor-pointer"
+            className="p-1.5 rounded-md text-sidebar-foreground hover:bg-sidebar-accent transition-colors cursor-pointer"
             aria-label="Ouvrir le menu"
           >
             <Menu className="w-5 h-5 text-sidebar-foreground" />
           </button>
           <div className="flex items-center gap-2">
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src="/agora.svg" alt="Agora360" width={28} height={28} className="shrink-0" />
-            <span className="text-base font-extrabold tracking-tight text-gradient-primary">Agora360</span>
+            <img src="/agora.svg" alt="" width={24} height={24} className="shrink-0" />
+            <span className="font-serif text-lg font-semibold tracking-tight text-sidebar-foreground">Agora360</span>
           </div>
           <div className="ml-auto flex items-center gap-2">
             <button
               onClick={() => setOpen(false)}
-              className={cn("p-1.5 rounded-lg text-sidebar-foreground/60 hover:bg-sidebar-accent transition-colors cursor-pointer", open ? "" : "invisible")}
+              className={cn("p-1.5 rounded-md text-sidebar-foreground/60 hover:bg-sidebar-accent transition-colors cursor-pointer", open ? "" : "invisible")}
               aria-label="Fermer le menu"
               aria-hidden={!open}
               tabIndex={open ? undefined : -1}

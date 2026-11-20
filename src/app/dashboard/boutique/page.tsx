@@ -364,7 +364,7 @@ export default async function BoutiquePage() {
 
       {/* Points balance card */}
       <FadeIn delay={0.05}>
-        <div className="bg-gradient-to-br from-primary/10 via-primary/5 to-transparent rounded-2xl border border-primary/20 p-5">
+        <div className="bg-primary/5 rounded-sm border border-primary/25 p-5">
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
             <div>
               <p className="text-xs font-medium text-muted-foreground uppercase tracking-wide mb-1">

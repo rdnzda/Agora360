@@ -30,7 +30,7 @@ export function MoodScale({ label, value, onChange }: Props) {
               className={cn(
                 "flex flex-col items-center gap-1.5 w-16 py-3 rounded-2xl border-2 text-3xl transition-colors cursor-pointer relative",
                 isSelected
-                  ? "border-primary bg-gradient-to-b from-primary/15 to-primary/5 shadow-md"
+                  ? "border-primary bg-primary/10"
                   : "border-border bg-card hover:bg-secondary hover:border-primary/30"
               )}
               aria-label={`${score}/5 — ${labels[i]}`}

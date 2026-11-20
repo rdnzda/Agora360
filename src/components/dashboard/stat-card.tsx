@@ -1,7 +1,7 @@
 "use client"
 
 import { cn } from "@/lib/utils"
-import { HoverCard, CountUp } from "@/components/animations"
+import { CountUp } from "@/components/animations"
 
 type Variant = "primary" | "teal" | "amber" | "violet" | "rose"
 
@@ -11,73 +11,38 @@ type Props = {
   value: string | number
   sublabel?: string
   className?: string
+  /** Conservé pour compatibilité : l'identité « Registre » n'utilise qu'une couleur. */
   variant?: Variant
 }
 
-const variantStyles: Record<Variant, {
-  iconBg: string
-  dot: string
-}> = {
-  primary: {
-    iconBg: "bg-primary/8",
-    dot: "bg-primary",
-  },
-  teal: {
-    iconBg: "bg-[oklch(0.65_0.16_195/0.08)]",
-    dot: "bg-[oklch(0.65_0.16_195)]",
-  },
-  amber: {
-    iconBg: "bg-[oklch(0.70_0.17_47/0.08)]",
-    dot: "bg-[oklch(0.70_0.17_47)]",
-  },
-  violet: {
-    iconBg: "bg-[oklch(0.58_0.18_330/0.08)]",
-    dot: "bg-[oklch(0.58_0.18_330)]",
-  },
-  rose: {
-    iconBg: "bg-[oklch(0.65_0.18_10/0.08)]",
-    dot: "bg-[oklch(0.65_0.18_10)]",
-  },
-}
-
-export function StatCard({ icon, label, value, sublabel, className, variant = "primary" }: Props) {
-  const styles = variantStyles[variant]
+export function StatCard({ icon, label, value, sublabel, className }: Props) {
   const numericValue = typeof value === "number" ? value : parseInt(value as string, 10)
   const isNumeric = !isNaN(numericValue)
 
   return (
-    <HoverCard>
-      <div className={cn(
-        "bg-card rounded-xl border border-border p-3 md:p-5 flex items-start gap-3 md:gap-4 card-shadow",
+    <div
+      className={cn(
+        "h-full bg-card border border-border border-t-2 border-t-foreground rounded-sm p-4 md:p-5 flex flex-col gap-3",
         className
-      )}>
-        <div className="relative shrink-0">
-          <div className={cn(
-            "w-10 h-10 md:w-11 md:h-11 rounded-xl flex items-center justify-center",
-            styles.iconBg
-          )}>
-            {icon}
-          </div>
-          <span className={cn(
-            "absolute -top-0.5 -right-0.5 w-2 h-2 rounded-full border-2 border-card",
-            styles.dot
-          )} />
-        </div>
-        <div className="min-w-0">
-          <p className="text-[10px] md:text-xs text-muted-foreground font-medium uppercase tracking-wide leading-tight">
-            {label}
-          </p>
-          <p className="text-xl md:text-2xl font-bold text-foreground mt-0.5">
-            {isNumeric
-              ? <CountUp value={numericValue} duration={0.8} />
-              : value
-            }
-          </p>
-          {sublabel && (
-            <p className="text-[10px] md:text-xs text-muted-foreground mt-0.5">{sublabel}</p>
-          )}
-        </div>
+      )}
+    >
+      <div className="flex items-start justify-between gap-2">
+        <p className="text-sm font-semibold text-foreground leading-tight">{label}</p>
+        <span className="shrink-0 text-muted-foreground [&_svg]:w-4 [&_svg]:h-4 [&_svg]:text-current" aria-hidden="true">
+          {icon}
+        </span>
       </div>
-    </HoverCard>
+      <div>
+        <p className="tabular text-3xl md:text-4xl font-semibold text-foreground leading-none">
+          {isNumeric
+            ? <CountUp value={numericValue} duration={0.6} />
+            : value
+          }
+        </p>
+        {sublabel && (
+          <p className="text-xs md:text-sm text-muted-foreground mt-1.5">{sublabel}</p>
+        )}
+      </div>
+    </div>
   )
 }

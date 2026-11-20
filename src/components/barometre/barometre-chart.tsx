@@ -39,31 +39,31 @@ export function BarometreChart({ data }: Props) {
   return (
     <ResponsiveContainer width="100%" height={260}>
       <BarChart data={chartData} margin={{ top: 5, right: 10, left: -10, bottom: 5 }}>
-        <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
+        <CartesianGrid vertical={false} stroke="var(--border)" />
         <XAxis
           dataKey="name"
-          tick={{ fontSize: 11, fill: "hsl(var(--muted-foreground))" }}
+          tick={{ fontSize: 11, fill: "var(--muted-foreground)" }}
           tickLine={false}
           axisLine={false}
         />
         <YAxis
           domain={[0, 5]}
           ticks={[1, 2, 3, 4, 5]}
-          tick={{ fontSize: 11, fill: "hsl(var(--muted-foreground))" }}
+          tick={{ fontSize: 11, fill: "var(--muted-foreground)" }}
           tickLine={false}
           axisLine={false}
         />
         <Tooltip
           contentStyle={{
-            backgroundColor: "hsl(var(--card))",
-            border: "1px solid hsl(var(--border))",
-            borderRadius: "8px",
+            backgroundColor: "var(--card)",
+            border: "1px solid var(--border)",
+            borderRadius: "4px",
             fontSize: "12px",
           }}
         />
         <Legend wrapperStyle={{ fontSize: "12px" }} />
-        <Bar dataKey="Humeur" fill="hsl(var(--primary))" radius={[4, 4, 0, 0]} />
-        <Bar dataKey="Bien-être" fill="#10b981" radius={[4, 4, 0, 0]} />
+        <Bar dataKey="Humeur" fill="var(--chart-1)" radius={[2, 2, 0, 0]} />
+        <Bar dataKey="Bien-être" fill="var(--chart-2)" radius={[2, 2, 0, 0]} />
       </BarChart>
     </ResponsiveContainer>
   )

@@ -19,7 +19,7 @@ export function Agora360LogoBadge({ className }: { className?: string }) {
   return (
     <div
       className={cn(
-        "w-9 h-9 rounded-xl flex items-center justify-center shrink-0 overflow-hidden",
+        "w-9 h-9 flex items-center justify-center shrink-0 overflow-hidden",
         className
       )}
     >

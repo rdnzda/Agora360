@@ -159,7 +159,7 @@ export function ScrollReveal({
   )
 }
 
-// ── NEW: HoverCard — subtle lift on hover ─────────────────────────────────────
+// ── HoverCard — simple wrapper (no lift: hover is shown via border colour) ─────────────────────────────────────
 export function HoverCard({
   children,
   className,
@@ -168,13 +168,9 @@ export function HoverCard({
   className?: string
 }) {
   return (
-    <motion.div
-      whileHover={{ y: -3 }}
-      transition={{ duration: 0.2, ease: "easeOut" }}
-      className={className}
-    >
+    <div className={className}>
       {children}
-    </motion.div>
+    </div>
   )
 }
 

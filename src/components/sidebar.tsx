@@ -22,7 +22,7 @@ import {
 import { motion } from "framer-motion"
 import { useEffect, useState } from "react"
 import { Tooltip } from "@base-ui/react/tooltip"
-import { Agora360Icon, Agora360LogoBadge } from "@/components/logo"
+import { Agora360LogoBadge } from "@/components/logo"
 
 const navItems = [
   {
@@ -31,7 +31,6 @@ const navItems = [
     icon: LayoutDashboard,
     active: true,
     exact: true,
-    iconColor: "text-sidebar-primary",
   },
   {
     label: "GPS Admin",
@@ -39,7 +38,6 @@ const navItems = [
     icon: Ticket,
     active: true,
     exact: false,
-    iconColor: "text-[oklch(0.70_0.22_278)]",
   },
   {
     label: "Parlement Éphémère",
@@ -47,7 +45,6 @@ const navItems = [
     icon: Landmark,
     active: true,
     exact: false,
-    iconColor: "text-[oklch(0.72_0.19_330)]",
   },
   {
     label: "Baromètre",
@@ -55,7 +52,6 @@ const navItems = [
     icon: BarChart2,
     active: true,
     exact: false,
-    iconColor: "text-[oklch(0.72_0.19_47)]",
   },
   {
     label: "Budget Participatif",
@@ -63,7 +59,6 @@ const navItems = [
     icon: Wallet,
     active: true,
     exact: false,
-    iconColor: "text-[oklch(0.72_0.19_195)]",
   },
   {
     label: "FAQ",
@@ -71,7 +66,6 @@ const navItems = [
     icon: MessageCircleQuestion,
     active: true,
     exact: false,
-    iconColor: "text-[oklch(0.68_0.18_150)]",
   },
   {
     label: "Boutique",
@@ -79,7 +73,6 @@ const navItems = [
     icon: ShoppingBag,
     active: true,
     exact: false,
-    iconColor: "text-[oklch(0.72_0.20_90)]",
   },
   {
     label: "Mon Profil",
@@ -87,7 +80,6 @@ const navItems = [
     icon: UserCircle,
     active: true,
     exact: false,
-    iconColor: "text-[oklch(0.68_0.20_10)]",
   },
   {
     label: "Paramètres",
@@ -95,7 +87,6 @@ const navItems = [
     icon: Settings,
     active: true,
     exact: false,
-    iconColor: "text-[oklch(0.65_0.05_240)]",
   },
 ]
 
@@ -108,7 +99,7 @@ function NavTooltip({ label, children }: { label: string; children: React.ReactN
       </Tooltip.Trigger>
       <Tooltip.Portal>
         <Tooltip.Positioner side="right" sideOffset={10}>
-          <Tooltip.Popup className="z-50 px-2.5 py-1.5 rounded-lg text-xs font-medium bg-sidebar text-sidebar-foreground border border-sidebar-border shadow-lg whitespace-nowrap">
+          <Tooltip.Popup className="z-50 px-2.5 py-1.5 rounded-sm text-xs font-medium bg-foreground text-background whitespace-nowrap">
             {label}
           </Tooltip.Popup>
         </Tooltip.Positioner>
@@ -173,17 +164,17 @@ export function Sidebar({
                   href={item.href}
                   onClick={onNavigate}
                   className={cn(
-                    "relative flex items-center justify-center w-10 h-10 rounded-xl transition-all duration-200",
+                    "relative flex items-center justify-center w-10 h-10 rounded-md transition-colors",
                     isActive
-                      ? "bg-white/10 text-sidebar-primary"
-                      : "text-sidebar-foreground/50 hover:bg-sidebar-accent hover:text-sidebar-foreground"
+                      ? "bg-sidebar-accent text-sidebar-accent-foreground"
+                      : "text-sidebar-foreground/65 hover:bg-sidebar-accent hover:text-sidebar-foreground"
                   )}
                 >
                   <Icon className="w-5 h-5 shrink-0" />
                   {isActive && (
                     <motion.div
                       layoutId="activeIndicator"
-                      className="absolute right-1 top-1/2 -translate-y-1/2 w-0.5 h-4 rounded-full bg-sidebar-primary"
+                      className="absolute left-0 top-1/2 -translate-y-1/2 w-[3px] h-5 rounded-full bg-sidebar-primary"
                       transition={{ type: "spring", stiffness: 400, damping: 30 }}
                     />
                   )}
@@ -200,13 +191,13 @@ export function Sidebar({
             <Link
               href="/dashboard/profil"
               onClick={onNavigate}
-              className="w-9 h-9 rounded-xl overflow-hidden hover:ring-2 hover:ring-sidebar-primary/40 transition-all shrink-0"
+              className="w-9 h-9 rounded-full overflow-hidden hover:ring-2 hover:ring-sidebar-primary/40 transition-all shrink-0"
             >
               {userImage ? (
                 // eslint-disable-next-line @next/next/no-img-element
                 <img src={userImage} alt={userName} className="w-full h-full object-cover" />
               ) : (
-                <span className="w-full h-full bg-gradient-to-br from-primary to-sidebar-primary flex items-center justify-center text-white font-bold text-sm">
+                <span className="w-full h-full bg-primary flex items-center justify-center text-primary-foreground font-semibold text-sm">
                   {userName.charAt(0).toUpperCase()}
                 </span>
               )}
@@ -218,7 +209,7 @@ export function Sidebar({
             <NavTooltip label={resolvedTheme === "dark" ? "Mode clair" : "Mode sombre"}>
               <button
                 onClick={() => setTheme(resolvedTheme === "dark" ? "light" : "dark")}
-                className="w-9 h-9 rounded-xl flex items-center justify-center text-sidebar-foreground/50 hover:bg-sidebar-accent hover:text-sidebar-foreground transition-colors cursor-pointer"
+                className="w-9 h-9 rounded-md flex items-center justify-center text-sidebar-foreground/65 hover:bg-sidebar-accent hover:text-sidebar-foreground transition-colors cursor-pointer"
                 aria-label="Basculer le thème"
               >
                 {resolvedTheme === "dark" ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
@@ -230,7 +221,7 @@ export function Sidebar({
           <NavTooltip label="Se déconnecter">
             <button
               onClick={() => signOut({ callbackUrl: "/login" })}
-              className="w-9 h-9 rounded-xl flex items-center justify-center text-sidebar-foreground/40 hover:text-red-400 hover:bg-red-400/10 transition-colors cursor-pointer"
+              className="w-9 h-9 rounded-md flex items-center justify-center text-sidebar-foreground/65 hover:text-destructive hover:bg-destructive/10 transition-colors cursor-pointer"
               aria-label="Se déconnecter"
             >
               <LogOut className="w-4 h-4" />
@@ -245,25 +236,24 @@ export function Sidebar({
   return (
     <aside className="w-64 min-h-screen bg-sidebar border-r border-sidebar-border flex flex-col">
       {/* Brand */}
-      <div className="p-6 border-b border-sidebar-border">
-        <div className="flex items-center gap-3 mb-1">
-          <Agora360LogoBadge />
-          <div className="text-xl font-extrabold tracking-tight text-gradient-primary">
+      <div className="px-5 py-5 border-b border-sidebar-border">
+        <div className="flex items-center gap-2.5">
+          <Agora360LogoBadge className="w-8 h-8" />
+          <div className="font-serif text-xl font-semibold tracking-tight text-sidebar-foreground">
             Agora360
           </div>
         </div>
-        <div className="text-xs text-sidebar-foreground/40 mt-1.5 ml-0.5 flex items-center gap-1.5">
-          <span className="inline-block w-1.5 h-1.5 rounded-full bg-green-400" />
+        <div className="text-xs text-sidebar-foreground/65 mt-2 flex items-center gap-1.5">
           Gouvernance participative
-          <span className="ml-auto px-1.5 py-0.5 rounded-md bg-white/8 text-sidebar-foreground/40 text-[10px] font-medium">
+          <span className="ml-auto tabular text-[11px] text-sidebar-foreground/55">
             v0.1
           </span>
         </div>
       </div>
 
       {/* Navigation */}
-      <nav className="flex-1 p-3 space-y-0.5">
-        {navItems.map((item, index) => {
+      <nav aria-label="Navigation principale" className="flex-1 px-3 py-4 space-y-0.5">
+        {navItems.map((item) => {
           const isActive = item.active && (
             item.exact ? pathname === item.href : pathname.startsWith(item.href)
           )
@@ -272,54 +262,40 @@ export function Sidebar({
 
           if (isDisabled) {
             return (
-              <motion.div
+              <div
                 key={item.label}
-                initial={{ opacity: 0, x: -10 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.25, delay: index * 0.05 + 0.1, ease: [0.25, 0.46, 0.45, 0.94] }}
-                className="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sidebar-foreground/30 cursor-not-allowed text-sm"
+                className="flex items-center gap-3 px-3 py-2 rounded-md text-sidebar-foreground/40 cursor-not-allowed text-sm"
                 title="Bientôt disponible"
               >
                 <Icon className="w-5 h-5 shrink-0" />
                 <span>{item.label}</span>
-                <span className="ml-auto text-xs bg-white/5 text-sidebar-foreground/30 px-1.5 py-0.5 rounded-md">
+                <span className="ml-auto text-xs border border-sidebar-border text-sidebar-foreground/55 px-1.5 py-0.5 rounded-sm">
                   Bientôt
                 </span>
-              </motion.div>
+              </div>
             )
           }
 
           return (
-            <motion.div
-              key={item.label}
-              initial={{ opacity: 0, x: -10 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.25, delay: index * 0.05 + 0.1, ease: [0.25, 0.46, 0.45, 0.94] }}
-            >
+            <div key={item.label}>
               <Link
                 href={item.href}
                 onClick={onNavigate}
+                aria-current={isActive ? "page" : undefined}
                 className={cn(
-                  "flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all duration-200",
+                  "relative flex items-center gap-3 px-3 py-2 rounded-md text-sm transition-colors",
                   isActive
-                    ? "bg-white/10 text-sidebar-primary shadow-sm"
-                    : "text-sidebar-foreground/60 hover:bg-sidebar-accent hover:text-sidebar-foreground"
+                    ? "bg-sidebar-accent text-sidebar-accent-foreground font-semibold before:absolute before:left-0 before:top-1.5 before:bottom-1.5 before:w-[3px] before:rounded-full before:bg-sidebar-primary"
+                    : "font-medium text-sidebar-foreground/75 hover:bg-sidebar-accent/60 hover:text-sidebar-foreground"
                 )}
               >
                 <Icon className={cn(
-                  "w-5 h-5 shrink-0 transition-colors",
-                  isActive ? "text-sidebar-primary" : item.iconColor + " opacity-70"
+                  "w-[18px] h-[18px] shrink-0",
+                  isActive ? "text-sidebar-primary" : "text-sidebar-foreground/55"
                 )} />
                 <span>{item.label}</span>
-                {isActive && (
-                  <motion.div
-                    layoutId="activeIndicatorFull"
-                    className="ml-auto w-1.5 h-1.5 rounded-full bg-sidebar-primary"
-                    transition={{ type: "spring", stiffness: 400, damping: 30 }}
-                  />
-                )}
               </Link>
-            </motion.div>
+            </div>
           )
         })}
       </nav>
@@ -327,26 +303,26 @@ export function Sidebar({
       {/* Footer */}
       <div className="p-4 border-t border-sidebar-border space-y-3">
         <div className="flex items-center gap-3">
-          <div className="w-9 h-9 rounded-xl overflow-hidden shrink-0">
+          <div className="w-9 h-9 rounded-full overflow-hidden shrink-0">
             {userImage ? (
               // eslint-disable-next-line @next/next/no-img-element
               <img src={userImage} alt={userName} className="w-full h-full object-cover" />
             ) : (
-              <span className="w-full h-full bg-gradient-to-br from-primary to-sidebar-primary flex items-center justify-center text-white font-bold text-sm">
+              <span className="w-full h-full bg-primary flex items-center justify-center text-primary-foreground font-semibold text-sm">
                 {userName.charAt(0).toUpperCase()}
               </span>
             )}
           </div>
           <div className="flex-1 min-w-0">
             <p className="text-sm font-semibold text-sidebar-foreground truncate">{userName}</p>
-            <p className="text-xs text-sidebar-foreground/50">
+            <p className="text-xs text-sidebar-foreground/65">
               {userRole === "ADMIN" ? "Administration" : "Étudiant"}
             </p>
           </div>
           {mounted && (
             <button
               onClick={() => setTheme(resolvedTheme === "dark" ? "light" : "dark")}
-              className="p-1.5 rounded-lg text-sidebar-foreground/50 hover:text-sidebar-foreground hover:bg-sidebar-accent transition-colors cursor-pointer shrink-0"
+              className="p-1.5 rounded-md text-sidebar-foreground/65 hover:text-sidebar-foreground hover:bg-sidebar-accent transition-colors cursor-pointer shrink-0"
               aria-label="Basculer le thème"
             >
               {resolvedTheme === "dark" ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
@@ -355,9 +331,9 @@ export function Sidebar({
         </div>
         <button
           onClick={() => signOut({ callbackUrl: "/login" })}
-          className="flex items-center gap-2 w-full text-left text-sm text-sidebar-foreground/40 hover:text-red-400 transition-colors px-1 cursor-pointer group"
+          className="flex items-center gap-2 w-full text-left text-sm text-sidebar-foreground/70 hover:text-destructive transition-colors px-1 py-1 rounded-md cursor-pointer"
         >
-          <LogOut className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
+          <LogOut className="w-4 h-4" />
           Se déconnecter
         </button>
       </div>

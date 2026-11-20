@@ -26,7 +26,7 @@ export function LevelIndicator({ points }: { points: number }) {
     <div className="space-y-3">
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-2">
-          <Trophy className="w-4 h-4 text-[oklch(0.72_0.19_47)]" />
+          <Trophy className="w-4 h-4 text-accent-warm" />
           <span className="text-sm font-bold text-gradient-warm">{level.label}</span>
         </div>
         <span className="text-sm font-extrabold text-foreground">
@@ -40,12 +40,12 @@ export function LevelIndicator({ points }: { points: number }) {
           ref={barRef}
           className="h-full rounded-full relative"
           style={{
-            background: "linear-gradient(90deg, oklch(0.45 0.27 278), oklch(0.72 0.19 195), oklch(0.72 0.19 47))",
+            background: "var(--primary)",
             width: "0%",
           }}
         >
           {/* Glowing cap */}
-          <div className="absolute right-0 top-1/2 -translate-y-1/2 w-3 h-3 rounded-full bg-[oklch(0.72_0.19_47)] animate-glow" />
+          <div className="absolute right-0 top-1/2 -translate-y-1/2 w-3 h-3 rounded-full bg-accent-warm ring-2 ring-card" />
         </div>
       </div>
 
@@ -56,7 +56,7 @@ export function LevelIndicator({ points }: { points: number }) {
         </p>
       )}
       {!level.nextLabel && (
-        <p className="text-xs text-accent font-semibold">Niveau maximum atteint ! 🏆</p>
+        <p className="text-xs text-accent font-semibold">Niveau maximum atteint.</p>
       )}
     </div>
   )

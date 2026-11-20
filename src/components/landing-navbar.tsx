@@ -1,49 +1,34 @@
 "use client"
 
 import Link from "next/link"
-import { motion, useScroll, useTransform } from "framer-motion"
 import { useTheme } from "next-themes"
 import { Sun, Moon } from "lucide-react"
 import { useEffect, useState } from "react"
 
 export function LandingNavbar() {
-  const { scrollY } = useScroll()
-  const bgOpacity = useTransform(scrollY, [0, 80], [0, 1])
-  const { theme, setTheme, resolvedTheme } = useTheme()
+  const { setTheme, resolvedTheme } = useTheme()
   const [mounted, setMounted] = useState(false)
 
   useEffect(() => setMounted(true), [])
 
   return (
-    <motion.header
-      className="fixed top-0 left-0 right-0 z-50"
-      initial={{ y: -20, opacity: 0 }}
-      animate={{ y: 0, opacity: 1 }}
-      transition={{ duration: 0.4, ease: [0.25, 0.46, 0.45, 0.94] }}
-    >
-      <motion.div
-        className="absolute inset-0 backdrop-blur-xl border-b border-border"
-        style={{
-          backgroundColor: `oklch(0.972 0.008 260 / ${bgOpacity.get()})`,
-          opacity: bgOpacity,
-        }}
-      />
-      <div className="relative max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
+    <header className="sticky top-0 z-50 bg-background border-b border-border px-4 sm:px-6">
+      <div className="max-w-6xl mx-auto h-16 flex items-center justify-between gap-4">
         {/* Logo */}
-        <Link href="/" className="flex items-center gap-2">
+        <Link href="/" className="flex items-center gap-2.5 rounded-sm">
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src="/agora.svg" alt="Agora360" width={32} height={32} className="shrink-0" />
-          <span className="font-extrabold text-lg tracking-tight text-gradient-primary">
+          <img src="/agora.svg" alt="" width={28} height={28} className="shrink-0" />
+          <span className="font-serif font-semibold text-xl tracking-tight text-foreground">
             Agora360
           </span>
         </Link>
 
         {/* Actions */}
-        <div className="flex items-center gap-3">
+        <nav aria-label="Compte" className="flex items-center gap-1 sm:gap-2">
           {mounted && (
             <button
               onClick={() => setTheme(resolvedTheme === "dark" ? "light" : "dark")}
-              className="p-2 rounded-lg text-muted-foreground hover:text-foreground hover:bg-muted transition-colors cursor-pointer"
+              className="p-2 rounded-md text-muted-foreground hover:text-foreground hover:bg-muted transition-colors cursor-pointer"
               aria-label="Basculer le thème"
             >
               {resolvedTheme === "dark"
@@ -54,18 +39,18 @@ export function LandingNavbar() {
           )}
           <Link
             href="/login"
-            className="hidden sm:inline text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
+            className="hidden sm:inline-flex px-3 py-2 text-sm font-medium text-foreground hover:underline underline-offset-4"
           >
             Connexion
           </Link>
           <Link
             href="/register"
-            className="btn-primary text-sm font-semibold text-white px-4 py-2 rounded-xl"
+            className="btn-primary text-sm font-semibold px-4 py-2 rounded-md"
           >
             Rejoindre
           </Link>
-        </div>
+        </nav>
       </div>
-    </motion.header>
+    </header>
   )
 }

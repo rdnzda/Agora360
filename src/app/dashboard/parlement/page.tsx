@@ -194,8 +194,7 @@ export default async function ParlementPage() {
           <FadeIn delay={0.15}>
             <div className="flex items-center justify-between mb-3">
               <div className="flex items-center gap-2">
-                <div className="w-1 h-5 rounded-full bg-gradient-to-b from-primary to-accent" />
-                <h2 className="text-sm font-bold text-foreground">
+                <h2 className="text-xl font-semibold text-foreground">
                   Motions
                   <span className="ml-2 text-xs font-normal text-muted-foreground">
                     ({motionsWithStats.length})

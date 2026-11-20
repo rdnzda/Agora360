@@ -17,30 +17,31 @@ const statusLabels: Record<keyof TicketStatusCounts, string> = {
   CLOSED: "Fermés",
 }
 
-const statusColors: Record<keyof TicketStatusCounts, string> = {
-  OPEN: "bg-amber-100 text-amber-700",
-  IN_PROGRESS: "bg-primary/10 text-primary",
-  RESOLVED: "bg-emerald-100 text-emerald-700",
-  CLOSED: "bg-muted text-muted-foreground",
+const statusMarks: Record<keyof TicketStatusCounts, string> = {
+  OPEN: "bg-accent-warm",
+  IN_PROGRESS: "bg-primary",
+  RESOLVED: "bg-emerald-600",
+  CLOSED: "bg-muted-foreground/50",
 }
 
 export function AdminStats({ totalUsers, statusCounts }: Props) {
   return (
-    <div className="bg-card rounded-xl border border-border p-5">
-      <div className="flex items-center justify-between mb-4">
-        <h3 className="text-sm font-semibold text-foreground">Vue administration</h3>
-        <span className="text-xs text-muted-foreground">{totalUsers} utilisateur{totalUsers > 1 ? "s" : ""}</span>
+    <section className="bg-card rounded-sm border border-border">
+      <div className="flex items-baseline justify-between gap-4 px-5 pt-5 pb-4">
+        <h2 className="text-xl font-semibold text-foreground">Vue administration</h2>
+        <span className="tabular text-sm text-muted-foreground">{totalUsers} utilisateur{totalUsers > 1 ? "s" : ""}</span>
       </div>
-      <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+      <dl className="grid grid-cols-2 sm:grid-cols-4 gap-px bg-border border-t border-border">
         {(Object.keys(statusCounts) as (keyof TicketStatusCounts)[]).map((status) => (
-          <div key={status} className="text-center">
-            <div className={`inline-flex items-center justify-center w-full rounded-lg px-3 py-2 text-lg font-bold mb-1 ${statusColors[status]}`}>
-              {statusCounts[status]}
-            </div>
-            <p className="text-xs text-muted-foreground">{statusLabels[status]}</p>
+          <div key={status} className="bg-card px-5 py-4">
+            <dt className="flex items-center gap-2 text-sm text-muted-foreground">
+              <span aria-hidden="true" className={`inline-block w-2 h-2 rounded-full ${statusMarks[status]}`} />
+              {statusLabels[status]}
+            </dt>
+            <dd className="tabular mt-1 text-2xl font-semibold text-foreground">{statusCounts[status]}</dd>
           </div>
         ))}
-      </div>
-    </div>
+      </dl>
+    </section>
   )
 }

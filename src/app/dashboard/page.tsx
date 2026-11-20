@@ -53,15 +53,15 @@ export default async function DashboardPage() {
   const firstName = session.user.name?.split(" ")[0] ?? "vous"
 
   return (
-    <div className="p-4 md:p-8 space-y-6">
+    <div className="p-4 md:p-8 lg:p-10 space-y-8 max-w-6xl">
       {/* ── Welcome header ── */}
       <FadeIn>
-        <div className="pt-2 pb-1">
-          <p className="text-xs text-muted-foreground capitalize font-medium tracking-wide">{today}</p>
-          <h1 className="text-2xl md:text-3xl font-extrabold mt-1 text-foreground">
-            Bonjour, {firstName} 👋
+        <div className="pt-2 pb-5 border-b border-border">
+          <p className="text-sm text-muted-foreground first-letter:uppercase">{today}</p>
+          <h1 className="text-3xl md:text-4xl font-semibold tracking-tight mt-1 text-foreground">
+            Bonjour, {firstName}
           </h1>
-          <p className="text-sm text-muted-foreground mt-1">
+          <p className="text-base text-muted-foreground mt-2">
             {isAdmin
               ? "Vue administrateur — toutes les statistiques de la plateforme."
               : "Bienvenue sur votre espace de gouvernance participative."}
@@ -70,10 +70,10 @@ export default async function DashboardPage() {
       </FadeIn>
 
       {/* ── Stat cards ── */}
-      <StaggerList className="grid grid-cols-2 md:grid-cols-4 gap-3">
+      <StaggerList className="grid grid-cols-2 lg:grid-cols-4 gap-3">
         <StaggerItem>
           <StatCard
-            icon={<Ticket className="w-5 h-5 text-primary" />}
+            icon={<Ticket className="w-5 h-5" />}
             label="Tickets ouverts"
             value={isAdmin ? openCount : openCount + inProgressCount}
             sublabel={isAdmin ? `${inProgressCount} en cours` : "en attente"}
@@ -82,7 +82,7 @@ export default async function DashboardPage() {
         </StaggerItem>
         <StaggerItem>
           <StatCard
-            icon={<BarChart2 className="w-5 h-5 text-accent" />}
+            icon={<BarChart2 className="w-5 h-5" />}
             label="Baromètre"
             value={barometreCount}
             sublabel={isAdmin ? "réponses totales" : "réponses"}
@@ -91,7 +91,7 @@ export default async function DashboardPage() {
         </StaggerItem>
         <StaggerItem>
           <StatCard
-            icon={<Wallet className="w-5 h-5 text-[oklch(0.60_0.19_47)]" />}
+            icon={<Wallet className="w-5 h-5" />}
             label="Budget voté"
             value={budgetVoteCount}
             sublabel={isAdmin ? "votes au total" : "votes"}
@@ -100,7 +100,7 @@ export default async function DashboardPage() {
         </StaggerItem>
         <StaggerItem>
           <StatCard
-            icon={<Landmark className="w-5 h-5 text-[oklch(0.50_0.20_310)]" />}
+            icon={<Landmark className="w-5 h-5" />}
             label="Parlement"
             value={parlementCount}
             sublabel="candidatures"
@@ -111,13 +111,12 @@ export default async function DashboardPage() {
 
       {/* ── Quick actions ── */}
       <FadeIn delay={0.15}>
-        <div className="bg-card rounded-2xl border border-border p-5">
+        <section className="bg-card rounded-sm border border-border p-5">
           <div className="flex items-center gap-2 mb-4">
-            <div className="w-1 h-5 rounded-full bg-gradient-to-b from-primary to-accent" />
-            <h2 className="text-sm font-bold text-foreground">Actions rapides</h2>
+            <h2 className="text-xl font-semibold text-foreground">Actions rapides</h2>
           </div>
           <QuickActions isAdmin={isAdmin} />
-        </div>
+        </section>
       </FadeIn>
 
       {/* ── Admin stats ── */}
@@ -137,20 +136,19 @@ export default async function DashboardPage() {
 
       {/* ── Recent tickets ── */}
       <FadeIn delay={0.25}>
-        <div className="bg-card rounded-2xl border border-border p-5">
+        <section className="bg-card rounded-sm border border-border p-5">
           <div className="flex items-center justify-between mb-4">
             <div className="flex items-center gap-2">
-              <div className="w-1 h-5 rounded-full bg-gradient-to-b from-primary to-accent" />
-              <h2 className="text-sm font-bold text-foreground">
+              <h2 className="text-xl font-semibold text-foreground">
                 {isAdmin ? "Derniers tickets" : "Mes derniers tickets"}
               </h2>
             </div>
-            <a href="/dashboard/tickets" className="text-xs text-accent hover:text-accent/80 font-medium transition-colors">
+            <a href="/dashboard/tickets" className="text-sm text-primary font-semibold underline underline-offset-4 hover:no-underline">
               Voir tout →
             </a>
           </div>
           <RecentTickets tickets={serializedTickets} isAdmin={isAdmin} />
-        </div>
+        </section>
       </FadeIn>
     </div>
   )
